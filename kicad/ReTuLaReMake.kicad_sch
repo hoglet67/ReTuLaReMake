@@ -1189,7 +1189,7 @@
   (no_connect (at 111.76 38.1) (uuid fa411915-b650-4314-a9ea-d1366a74115e))
   (no_connect (at 66.04 99.06) (uuid fbffdd5c-7f20-45f8-9786-3c96452b2128))
   (no_connect (at 142.24 96.52) (uuid ff534678-6d92-41a0-ad70-b0690b88cf29))
-  (no_connect (at 111.76 149.86) (uuid ffaa4335-1ad2-4871-9186-367545be5ce7))
+  (no_connect (at 132.08 149.86) (uuid ffaa4335-1ad2-4871-9186-367545be5ce7))
 
   (wire (pts (xy 255.27 97.79) (xy 233.68 97.79))
     (stroke (width 0) (type default) (color 0 0 0 0))
@@ -1608,7 +1608,7 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 5980cfb4-373f-4ad1-a62a-a378ee9c822e)
   )
-  (label "PA0" (at 132.08 149.86 270)
+  (label "PA0" (at 111.76 149.86 270)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 5d8c17bb-6128-40cd-a7b8-be7a1036bbe2)
   )
