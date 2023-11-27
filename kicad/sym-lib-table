@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "ATF1508AS-10AU100")(type "KiCad")(uri "${KIPRJMOD}/mysymbols/ATF1508AS-10AU100.kicad_sym")(options "")(descr ""))
+)

@@ -1,0 +1,6 @@
+#*
+*~
+not_in_git/
+kicad/*.bak
+kicad/ReTuLaReMake-backups/
+kicad/fp-info-cache
