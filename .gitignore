@@ -4,3 +4,7 @@ not_in_git/
 kicad/*.bak
 kicad/ReTuLaReMake-backups/
 kicad/fp-info-cache
+cpld/db/
+cpld/incremental_db/
+cpld/output_files/
+cpld/simulation/
