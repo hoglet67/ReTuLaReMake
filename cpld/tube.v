@@ -42,14 +42,14 @@ module tube
    reg [7:0] hp3_data;
    reg [7:0] hp4_data;
 
-   reg       ph1_state;
-   reg       ph2_state;
-   reg       ph3_state;
-   reg       ph4_state;
-   reg       hp1_state;
-   reg       hp2_state;
-   reg       hp3_state;
-   reg       hp4_state;
+   wire      ph1_state;
+   wire      ph2_state;
+   wire      ph3_state;
+   wire      ph4_state;
+   wire      hp1_state;
+   wire      hp2_state;
+   wire      hp3_state;
+   wire      hp4_state;
 
    reg [7:0] h_data_out;
    reg [7:0] p_data_out;
@@ -89,45 +89,43 @@ module tube
          3'b111: ph4_data <= p_data;
        endcase
 
-   // HP FIFO flags
-   always @(*) begin
-      if (!h_rst_b | t_flag | (!p_cs_b && !p_rd_b && p_addr == 3'b001))
-        hp1_state = 1'b0;
-      else if (h_phi2 && !h_cs_b && !h_rdnw && h_addr == 3'b001)
-        hp1_state = 1'b1;
-      if (!h_rst_b | t_flag | (!p_cs_b && !p_rd_b && p_addr == 3'b011))
-        hp2_state = 1'b0;
-      else if (h_phi2 && !h_cs_b && !h_rdnw && h_addr == 3'b011)
-        hp2_state = 1'b1;
-      if (!h_rst_b | t_flag | (!p_cs_b && !p_rd_b && p_addr == 3'b101))
-        hp3_state = 1'b0;
-      else if (h_phi2 && !h_cs_b && !h_rdnw && h_addr == 3'b101)
-        hp3_state = 1'b1;
-      if (!h_rst_b | t_flag | (!p_cs_b && !p_rd_b && p_addr == 3'b111))
-        hp4_state = 1'b0;
-      else if (h_phi2 && !h_cs_b && !h_rdnw && h_addr == 3'b111)
-        hp4_state = 1'b1;
-   end
+   // FIFO flags
 
-   // PH FIFO flags
-   always @(*) begin
-      if (!h_rst_b | t_flag | (h_phi2 && !h_cs_b && h_rdnw && h_addr == 3'b001))
-        ph1_state = 1'b0;
-      else if (!p_cs_b && !p_wr_b && p_addr == 3'b001)
-        ph1_state = 1'b1;
-      if (!h_rst_b | t_flag | (h_phi2 && !h_cs_b && h_rdnw && h_addr == 3'b011))
-        ph2_state = 1'b0;
-      else if (!p_cs_b && !p_wr_b && p_addr == 3'b011)
-        ph2_state = 1'b1;
-      if (h_phi2 && !h_cs_b && h_rdnw && h_addr == 3'b101)
-        ph3_state = 1'b0;
-      else if (!h_rst_b | t_flag | (!p_cs_b && !p_wr_b && p_addr == 3'b101))
-        ph3_state = 1'b1;
-      if (!h_rst_b | t_flag | (h_phi2 && !h_cs_b && h_rdnw && h_addr == 3'b111))
-        ph4_state = 1'b0;
-      else if (!p_cs_b && !p_wr_b && p_addr == 3'b111)
-        ph4_state = 1'b1;
-   end
+   wire tube_reset = !h_rst_b | t_flag;
+
+   wire h_write = h_phi2 & !h_cs_b & !h_rdnw & h_addr[0];
+   wire p_read  =          !p_cs_b & !p_rd_b & p_addr[0];
+
+   wire hp1_s = (h_write & h_addr[2:1] == 2'b00);
+   wire hp1_r = (p_read  & p_addr[2:1] == 2'b00) | tube_reset;
+   wire hp2_s = (h_write & h_addr[2:1] == 2'b01);
+   wire hp2_r = (p_read  & p_addr[2:1] == 2'b01) | tube_reset;
+   wire hp3_s = (h_write & h_addr[2:1] == 2'b10);
+   wire hp3_r = (p_read  & p_addr[2:1] == 2'b10) | tube_reset;
+   wire hp4_s = (h_write & h_addr[2:1] == 2'b11);
+   wire hp4_r = (p_read  & p_addr[2:1] == 2'b11) | tube_reset;
+
+   rs_latch hp1_state_inst (.r(hp1_r), .s(hp1_s), .q(hp1_state));
+   rs_latch hp2_state_inst (.r(hp2_r), .s(hp2_s), .q(hp2_state));
+   rs_latch hp3_state_inst (.r(hp3_r), .s(hp3_s), .q(hp3_state));
+   rs_latch hp4_state_inst (.r(hp4_r), .s(hp4_s), .q(hp4_state));
+
+   wire p_write =          !p_cs_b & !p_wr_b & p_addr[0];
+   wire h_read  = h_phi2 & !h_cs_b &  h_rdnw & h_addr[0];
+
+   wire ph1_s = (p_write & p_addr[2:1] == 2'b00);
+   wire ph1_r = (h_read  & h_addr[2:1] == 2'b00) | tube_reset;
+   wire ph2_s = (p_write & p_addr[2:1] == 2'b01);
+   wire ph2_r = (h_read  & h_addr[2:1] == 2'b01) | tube_reset;
+   wire ph3_s = (p_write & p_addr[2:1] == 2'b10) | tube_reset;
+   wire ph3_r = (h_read  & h_addr[2:1] == 2'b10);
+   wire ph4_s = (p_write & p_addr[2:1] == 2'b11);
+   wire ph4_r = (h_read  & h_addr[2:1] == 2'b11) | tube_reset;
+
+   rs_latch ph1_state_inst (.r(ph1_r), .s(ph1_s), .q(ph1_state));
+   rs_latch ph2_state_inst (.r(ph2_r), .s(ph2_s), .q(ph2_state));
+   rs_latch ph3_state_inst (.r(ph3_r), .s(ph3_s), .q(ph3_state));
+   rs_latch ph4_state_inst (.r(ph4_r), .s(ph4_s), .q(ph4_state));
 
    // h_data multiplexor
    always @(*)
@@ -176,5 +174,33 @@ module tube
 
    // DMA not implemented
    assign drq = 1'b0;
+
+endmodule
+
+
+module rs_latch
+  (
+   input r,
+   input s,
+   output reg q
+   );
+
+   always @(r or s)
+      if (r)
+        q = 0;
+      else if (s)
+        q = 1;
+
+// Xilinx primitive...
+//
+//   LDCP latch
+//     (
+//      .CLR(r),
+//      .PRE(s),
+//      .Q(q),
+//      .G(1'b0),
+//      .D(1'b0)
+//      );
+
 
 endmodule
