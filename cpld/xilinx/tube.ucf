@@ -1,0 +1,74 @@
+#NET "clock49" TNM_NET = clk_period_grp_49;
+#TIMESPEC TS_clk_period_49 = PERIOD "clk_period_grp_49" 20.345ns HIGH;
+
+NET "h_phi2" TNM_NET = clk_period_grp_phi2;
+TIMESPEC TS_clk_period_phi2 = PERIOD "clk_period_grp_phi2" 500ns LOW;
+
+NET "p_wr_b" CLOCK_DEDICATED_ROUTE = FALSE;
+
+#NET "clock49"  LOC="P89" | IOSTANDARD = LVCMOS33                            ; # 49.152 MHz Oscillator
+
+#NET "GND"      LOC="P16" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 1
+#NET "VCC1"     LOC="P95" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 2
+#NET "VCC2"     LOC="P18" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 3
+#NET "VCC3"     LOC="P17" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 4
+#NET "GND"      LOC="P94" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 5
+NET "h_data<0>" LOC="P22" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 6
+NET "h_data<1>" LOC="P23" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 7
+NET "h_data<2>" LOC="P33" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 8
+NET "h_data<3>" LOC="P32" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 9
+NET "h_data<4>" LOC="P34" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 10
+NET "h_data<5>" LOC="P40" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 11
+NET "h_data<6>" LOC="P41" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 12
+NET "h_data<7>" LOC="P36" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 13
+NET "h_addr<0>" LOC="P35" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 14
+NET "h_addr<1>" LOC="P53" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 15
+NET "h_addr<2>" LOC="P54" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 16
+NET "h_rdnw"    LOC="P57" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 17
+NET "h_cs_b"    LOC="P58" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 18
+NET "h_phi2"    LOC="P60" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 19
+NET "h_rst_b"   LOC="P61" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 20
+
+NET "p_cs_b"    LOC="P67" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 21
+NET "p_rd_b"    LOC="P68" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 22
+NET "p_wr_b"    LOC="P70" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 23
+NET "dack_b"    LOC="P71" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 24
+NET "p_addr<2>" LOC="P86" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 25
+NET "p_addr<1>" LOC="P84" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 26
+NET "p_addr<0>" LOC="P83" | IOSTANDARD = LVCMOS33                            ; # DIP-40 pin 27
+NET "p_data<7>" LOC="P78" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 28
+NET "p_data<6>" LOC="P79" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 29
+NET "p_data<5>" LOC="P85" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 30
+NET "p_data<4>" LOC="P92" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 31
+NET "p_data<3>" LOC="P98" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 32
+NET "p_data<2>" LOC="P3"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 33
+NET "p_data<1>" LOC="P2"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 34
+NET "p_data<0>" LOC="P4"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 35
+NET "p_irq_b"   LOC="P5"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 36
+NET "p_rst_b"   LOC="P90" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 37
+NET "drq"       LOC="P9"  | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 38
+NET "h_irq_b"   LOC="P10" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 39
+NET "p_nmi_b"   LOC="P11" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 40
+
+# LEDs / Switches
+#NET "led3"     LOC="P43" | IOSTANDARD = LVCMOS33                            ; # Red LED (near SW1)
+#NET "led6"     LOC="P25" | IOSTANDARD = LVCMOS33                            ; # Red LED (just left of FPGA)
+#NET "led8"     LOC="P47" | IOSTANDARD = LVCMOS33                            ; # Green LED (near SW1)
+#NET "sw1"      LOC="P39" | IOSTANDARD = LVCMOS33                            ; # Bottom Switch
+#NET "sw2"      LOC="P69" | IOSTANDARD = LVCMOS33 | PULLUP                   ; # Top Switch
+
+# Test connector
+#NET ""         LOC="P48" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # connector pin E2
+#NET ""         LOC="P49" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # connector pin E3
+#NET ""         LOC="P27" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # connector pin E4
+#NET ""         LOC="P44" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # connector pin E5
+#NET ""         LOC="P50" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # connector pin E6
+#NET ""         LOC="P42" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # connector pin E7
+#NET ""         LOC="P99" | IOSTANDARD = LVCMOS33 | SLEW = SLOW | DRIVE = 4  ; # connector pin E8
+
+# Other pins on DIP Header
+#NET ""         LOC="P26" | IOSTANDARD = LVCMOS33                            ;
+#NET ""         LOC="P15" | IOSTANDARD = LVCMOS33                            ;
+#NET ""         LOC="P62" | IOSTANDARD = LVCMOS33                            ;
+#NET ""         LOC="P63" | IOSTANDARD = LVCMOS33                            ;
+#NET ""         LOC="P65" | IOSTANDARD = LVCMOS33                            ;

@@ -4,7 +4,9 @@ not_in_git/
 kicad/*.bak
 kicad/ReTuLaReMake-backups/
 kicad/fp-info-cache
-cpld/db/
-cpld/incremental_db/
-cpld/output_files/
-cpld/simulation/
+cpld/altera/db/
+cpld/altera/incremental_db/
+cpld/altera/output_files/
+cpld/altera/simulation/
+cpld/xilinx/working/
+cpld/xilinx/iseconfig/
