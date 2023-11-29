@@ -54,6 +54,8 @@ module tube
    reg [7:0] h_data_out;
    reg [7:0] p_data_out;
 
+   wire      nmi_flag;
+
    wire      p_nmi;
    wire      p_irq;
    wire      h_irq;
@@ -150,7 +152,7 @@ module tube
        3'b001: p_data_out = hp1_data;
        3'b010: p_data_out = {hp2_state, !ph2_state, 6'b111111};
        3'b011: p_data_out = hp2_data;
-       3'b100: p_data_out = {p_nmi, !ph3_state, 6'b111111};
+       3'b100: p_data_out = {nmi_flag, !ph3_state, 6'b111111};
        3'b101: p_data_out = hp3_data;
        3'b110: p_data_out = {hp4_state, !ph4_state, 6'b111111};
        3'b111: p_data_out = hp4_data;
@@ -160,7 +162,8 @@ module tube
    assign p_data = (!p_cs_b && !p_rd_b) ? p_data_out : 8'bZZZZZZZZ;
 
    // interrupt logic
-   assign p_nmi = m_flag & (hp3_state | !ph3_state);
+   assign nmi_flag = hp3_state | !ph3_state;
+   assign p_nmi = m_flag & nmi_flag;
    assign p_irq = (j_flag & hp4_state) | (i_flag & hp1_state);
    assign h_irq = q_flag & ph4_state;
 
