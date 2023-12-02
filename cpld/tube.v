@@ -51,6 +51,11 @@ module tube
    wire      hp3_state;
    wire      hp4_state;
 
+   wire      ph3_dav;
+   wire      ph3_sav;
+   wire      hp3_dav;
+   wire      hp3_sav;
+
    reg [7:0] h_data_out;
    reg [7:0] p_data_out;
 
@@ -136,7 +141,7 @@ module tube
        3'b001: h_data_out = ph1_data;
        3'b010: h_data_out = {ph2_state, !hp2_state, 6'b111111};
        3'b011: h_data_out = ph2_data;
-       3'b100: h_data_out = {ph3_state, !hp3_state, 6'b111111};
+       3'b100: h_data_out = {ph3_dav,      hp3_sav, 6'b111111};
        3'b101: h_data_out = ph3_data;
        3'b110: h_data_out = {ph4_state, !hp4_state, 6'b111111};
        3'b111: h_data_out = ph4_data;
@@ -152,7 +157,7 @@ module tube
        3'b001: p_data_out = hp1_data;
        3'b010: p_data_out = {hp2_state, !ph2_state, 6'b111111};
        3'b011: p_data_out = hp2_data;
-       3'b100: p_data_out = {nmi_flag, !ph3_state, 6'b111111};
+       3'b100: p_data_out = {nmi_flag,     ph3_sav, 6'b111111};
        3'b101: p_data_out = hp3_data;
        3'b110: p_data_out = {hp4_state, !ph4_state, 6'b111111};
        3'b111: p_data_out = hp4_data;
@@ -161,8 +166,13 @@ module tube
    // p_data tristate buffer
    assign p_data = (!p_cs_b && !p_rd_b) ? p_data_out : 8'bZZZZZZZZ;
 
+   assign hp3_dav  =  hp3_state;
+   assign hp3_sav  = !hp3_state;
+   assign ph3_dav  =  ph3_state;
+   assign ph3_sav  = !ph3_state;
+   assign nmi_flag = hp3_dav | ph3_sav;
+
    // interrupt logic
-   assign nmi_flag = hp3_state | !ph3_state;
    assign p_nmi = m_flag & nmi_flag;
    assign p_irq = (j_flag & hp4_state) | (i_flag & hp1_state);
    assign h_irq = q_flag & ph4_state;
