@@ -96,8 +96,8 @@ module tube
 
    wire tube_reset = !h_rst_b | t_flag;
 
-   wire h_write = h_phi2 & !h_cs_b & !h_rdnw & h_addr[0];
-   wire p_read  =          !p_cs_b & !p_rd_b & p_addr[0];
+   wire h_write = !h_cs_b & !h_rdnw & h_addr[0];
+   wire p_read  = !p_cs_b & !p_rd_b & p_addr[0];
 
    wire hp1_s = (h_write & h_addr[2:1] == 2'b00);
    wire hp1_r = (p_read  & p_addr[2:1] == 2'b00) | tube_reset;
@@ -106,11 +106,11 @@ module tube
    wire hp4_s = (h_write & h_addr[2:1] == 2'b11);
    wire hp4_r = (p_read  & p_addr[2:1] == 2'b11) | tube_reset;
 
-   rs_latch hp1_state_inst (.r(hp1_r), .s(hp1_s), .q(hp1_state));
-   rs_latch hp2_state_inst (.r(hp2_r), .s(hp2_s), .q(hp2_state));
-   rs_latch hp4_state_inst (.r(hp4_r), .s(hp4_s), .q(hp4_state));
+   ar_dff hp1_state_inst (.clk(!h_phi2), .r(hp1_r), .clken(hp1_s), .d(1'b1), .q(hp1_state));
+   ar_dff hp2_state_inst (.clk(!h_phi2), .r(hp2_r), .clken(hp2_s), .d(1'b1), .q(hp2_state));
+   ar_dff hp4_state_inst (.clk(!h_phi2), .r(hp4_r), .clken(hp4_s), .d(1'b1), .q(hp4_state));
 
-   wire p_write =          !p_cs_b & !p_wr_b & p_addr[0];
+   wire p_write =          !p_cs_b &         & p_addr[0];
    wire h_read  = h_phi2 & !h_cs_b &  h_rdnw & h_addr[0];
 
    wire ph1_s = (p_write & p_addr[2:1] == 2'b00);
@@ -120,9 +120,9 @@ module tube
    wire ph4_s = (p_write & p_addr[2:1] == 2'b11);
    wire ph4_r = (h_read  & h_addr[2:1] == 2'b11) | tube_reset;
 
-   rs_latch ph1_state_inst (.r(ph1_r), .s(ph1_s), .q(ph1_state));
-   rs_latch ph2_state_inst (.r(ph2_r), .s(ph2_s), .q(ph2_state));
-   rs_latch ph4_state_inst (.r(ph4_r), .s(ph4_s), .q(ph4_state));
+   ar_dff ph1_state_inst (.clk(p_wr_b), .r(ph1_r), .clken(ph1_s), .d(1'b1), .q(ph1_state));
+   ar_dff ph2_state_inst (.clk(p_wr_b), .r(ph2_r), .clken(ph2_s), .d(1'b1), .q(ph2_state));
+   ar_dff ph4_state_inst (.clk(p_wr_b), .r(ph4_r), .clken(ph4_s), .d(1'b1), .q(ph4_state));
 
    // R3 FIFOs
    r3_fifo
@@ -232,11 +232,11 @@ module r3_fifo_simple
    parameter    empty_value = 0;
 
    wire         r3_state;
-   wire         r3_set   = (wclk & wclken) | (reset & init_state);
+   wire         r3_set   = (       wclken) | (reset & init_state);
    wire         r3_reset = (rclk & rclken) | (reset & !init_state);
    reg [7:0]    data = 8'hAA;
 
-   rs_latch state (.r(r3_reset), .s(r3_set), .q(r3_state));
+   ar_dff state (.clk(!wclk), .r(r3_reset), .clken(r3_set), .d(1'b1), .q(r3_state));
 
    always @(negedge wclk)
      if (wclken)
@@ -331,6 +331,23 @@ module r3_fifo
    assign sav = empty;
 
 endmodule
+
+module ar_dff
+  (
+   input clk,
+   input clken,
+   input d,
+   input r,
+   output reg q
+   );
+
+  always @(posedge clk or posedge r)
+    if (r)
+      q = 0;
+    else if (clken)
+      q = d;
+endmodule
+
 
 module rs_latch
   (
