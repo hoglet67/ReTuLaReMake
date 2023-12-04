@@ -35,20 +35,18 @@ module tube
 
    reg [7:0] ph1_data;
    reg [7:0] ph2_data;
-   reg [7:0] ph3_data;
+   wire [7:0]ph3_data;
    reg [7:0] ph4_data;
    reg [7:0] hp1_data;
    reg [7:0] hp2_data;
-   reg [7:0] hp3_data;
+   wire [7:0]hp3_data;
    reg [7:0] hp4_data;
 
    wire      ph1_state;
    wire      ph2_state;
-   wire      ph3_state;
    wire      ph4_state;
    wire      hp1_state;
    wire      hp2_state;
-   wire      hp3_state;
    wire      hp4_state;
 
    wire      ph3_dav;
@@ -82,7 +80,6 @@ module tube
        case (h_addr)
          3'b001: hp1_data <= h_data;
          3'b011: hp2_data <= h_data;
-         3'b101: hp3_data <= h_data;
          3'b111: hp4_data <= h_data;
        endcase
 
@@ -92,7 +89,6 @@ module tube
        case (p_addr)
          3'b001: ph1_data <= p_data;
          3'b011: ph2_data <= p_data;
-         3'b101: ph3_data <= p_data;
          3'b111: ph4_data <= p_data;
        endcase
 
@@ -107,14 +103,11 @@ module tube
    wire hp1_r = (p_read  & p_addr[2:1] == 2'b00) | tube_reset;
    wire hp2_s = (h_write & h_addr[2:1] == 2'b01);
    wire hp2_r = (p_read  & p_addr[2:1] == 2'b01) | tube_reset;
-   wire hp3_s = (h_write & h_addr[2:1] == 2'b10);
-   wire hp3_r = (p_read  & p_addr[2:1] == 2'b10) | tube_reset;
    wire hp4_s = (h_write & h_addr[2:1] == 2'b11);
    wire hp4_r = (p_read  & p_addr[2:1] == 2'b11) | tube_reset;
 
    rs_latch hp1_state_inst (.r(hp1_r), .s(hp1_s), .q(hp1_state));
    rs_latch hp2_state_inst (.r(hp2_r), .s(hp2_s), .q(hp2_state));
-   rs_latch hp3_state_inst (.r(hp3_r), .s(hp3_s), .q(hp3_state));
    rs_latch hp4_state_inst (.r(hp4_r), .s(hp4_s), .q(hp4_state));
 
    wire p_write =          !p_cs_b & !p_wr_b & p_addr[0];
@@ -124,15 +117,51 @@ module tube
    wire ph1_r = (h_read  & h_addr[2:1] == 2'b00) | tube_reset;
    wire ph2_s = (p_write & p_addr[2:1] == 2'b01);
    wire ph2_r = (h_read  & h_addr[2:1] == 2'b01) | tube_reset;
-   wire ph3_s = (p_write & p_addr[2:1] == 2'b10) | tube_reset;
-   wire ph3_r = (h_read  & h_addr[2:1] == 2'b10);
    wire ph4_s = (p_write & p_addr[2:1] == 2'b11);
    wire ph4_r = (h_read  & h_addr[2:1] == 2'b11) | tube_reset;
 
    rs_latch ph1_state_inst (.r(ph1_r), .s(ph1_s), .q(ph1_state));
    rs_latch ph2_state_inst (.r(ph2_r), .s(ph2_s), .q(ph2_state));
-   rs_latch ph3_state_inst (.r(ph3_r), .s(ph3_s), .q(ph3_state));
    rs_latch ph4_state_inst (.r(ph4_r), .s(ph4_s), .q(ph4_state));
+
+   // R3 FIFOs
+   r3_fifo
+     #(
+       .init_state(0),
+       .empty_value(8'he4)
+       )
+   hp3
+     (
+      .wclk(h_phi2),
+      .wclken(!h_cs_b & !h_rdnw & h_addr == 3'b101),
+      .wdata(h_data),
+      .rclk(!p_rd_b),
+      .rclken(!p_cs_b & p_addr == 3'b101),
+      .reset(tube_reset),
+      .rdata(hp3_data),
+      .v_flag(v_flag),
+      .dav(hp3_dav),
+      .sav(hp3_sav)
+      );
+
+   r3_fifo #
+     (
+      .init_state(1),
+      .empty_value(8'h96)
+      )
+   ph3
+     (
+      .wclk(!p_wr_b),
+      .wclken(!p_cs_b & p_addr == 3'b101),
+      .wdata(p_data),
+      .rclk(h_phi2),
+      .rclken(!h_cs_b & h_rdnw & h_addr == 3'b101),
+      .reset(tube_reset),
+      .rdata(ph3_data),
+      .v_flag(v_flag),
+      .dav(ph3_dav),
+      .sav(ph3_sav)
+      );
 
    // h_data multiplexor
    always @(*)
@@ -166,13 +195,8 @@ module tube
    // p_data tristate buffer
    assign p_data = (!p_cs_b && !p_rd_b) ? p_data_out : 8'bZZZZZZZZ;
 
-   assign hp3_dav  =  hp3_state;
-   assign hp3_sav  = !hp3_state;
-   assign ph3_dav  =  ph3_state;
-   assign ph3_sav  = !ph3_state;
-   assign nmi_flag = hp3_dav | ph3_sav;
-
    // interrupt logic
+   assign nmi_flag = hp3_dav | ph3_sav;
    assign p_nmi = m_flag & nmi_flag;
    assign p_irq = (j_flag & hp4_state) | (i_flag & hp1_state);
    assign h_irq = q_flag & ph4_state;
@@ -190,6 +214,123 @@ module tube
 
 endmodule
 
+module r3_fifo_simple
+  (
+   input        wclk,
+   input        wclken,
+   input [7:0]  wdata,
+   input        rclk,
+   input        rclken,
+   input        reset,
+   output [7:0] rdata,
+   input        v_flag,
+   output       dav,
+   output       sav
+   );
+
+   parameter    init_state = 0;
+   parameter    empty_value = 0;
+
+   wire         r3_state;
+   wire         r3_set   = (wclk & wclken) | (reset & init_state);
+   wire         r3_reset = (rclk & rclken) | (reset & !init_state);
+   reg [7:0]    data = 8'hAA;
+
+   rs_latch state (.r(r3_reset), .s(r3_set), .q(r3_state));
+
+   always @(negedge wclk)
+     if (wclken)
+       data <= wdata;
+
+   assign rdata = r3_state ? data : empty_value;
+   assign dav = r3_state;
+   assign sav = !r3_state;
+
+endmodule
+
+// init_state   0      1
+// full         0      0
+// wptr         0      1
+// empty        1      0
+// rprt         0      0
+
+module r3_fifo
+  (
+   input        wclk,
+   input        wclken,
+   input [7:0]  wdata,
+   input        rclk,
+   input        rclken,
+   input        reset,
+   output [7:0] rdata,
+   input        v_flag,
+   output       dav,
+   output       sav
+   );
+
+   parameter    init_state = 0;
+   parameter    empty_value = 0;
+
+   reg          rptr;
+   reg          wptr;
+   reg          full;
+   reg          empty;
+   reg [7:0]    data[0:1];
+
+
+   // On reset, wptr = initial state
+   always @(negedge wclk or posedge reset)
+     if (reset)
+       wptr <= init_state; // async set or async clear
+     else if (wclken & !full) begin
+        data[wptr] <= wdata;
+        wptr <= !wptr;
+     end
+
+   // On reset, rptr = 0
+   always @(negedge rclk or posedge reset)
+     if (reset)
+       rptr <= 1'b0; // async clear
+     else if (rclken & !empty) begin
+        rptr <= !rptr;
+     end
+
+   // On reset, full = 0
+   wire clrfull = reset | (rclk & rclken);
+   always @(negedge wclk or posedge clrfull)
+     if (clrfull)
+       full <= 1'b0; // async clear
+     else if (wclken & !full)
+       full <= rptr != wptr;
+
+   // On reset, empty = !initial_state, which is done with an async set
+   wire clrempty = (reset & (init_state == 1)) | (wclk & wclken);
+   wire setempty = (reset & (init_state == 0));
+   always @(negedge rclk or posedge setempty or posedge clrempty)
+     if (setempty)
+       empty <= 1'b1; // async set
+     else if (clrempty)
+       empty <= 1'b0; // async clear
+     else if (rclken & !empty)
+       empty <= rptr != wptr;
+
+   assign rdata = empty ? empty_value : data[rptr];
+
+   // TODO: this is not quite right, because in 2-byte mode the flags
+   // exhibit hysteresis.
+   //
+   //      2-byte  1-byte
+   //      dav sav dav sav
+   // 00 0  0   1   0   1 (empty)
+   // 01 1  0   1   1   0
+   // 11 2  1   0   1   0 (full)
+   // 10 1  1   0   1   0
+   // 00 0  0   1   0   1 (empty)
+
+   assign dav = v_flag ? full : !empty;
+   assign sav = empty;
+
+endmodule
 
 module rs_latch
   (
