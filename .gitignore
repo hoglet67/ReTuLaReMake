@@ -8,5 +8,7 @@ cpld/altera/db/
 cpld/altera/incremental_db/
 cpld/altera/output_files/
 cpld/altera/simulation/
-cpld/xilinx/working/
-cpld/xilinx/iseconfig/
+cpld/xilinx_fpga/working/
+cpld/xilinx_fpga/iseconfig/
+cpld/xilinx_cpld/working/
+cpld/xilinx_cpld/iseconfig/
