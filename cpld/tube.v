@@ -11,19 +11,19 @@
 //
 // (*) Would not Fit and/or would not route
 
-// Implementatiob options for R1/R2/R4
+// Implementation options for R1/R2/R4
 //
 // The shared implementation saves ~34 macrocells
 
 `define R124_FIFO_IMPL r124_fifo_onebyte_shared
-//`define R124_FIFO_IMPL r124_fifo_onebyte_exclusive
+// `define R124_FIFO_IMPL r124_fifo_onebyte_exclusive
 
-// Implementatiob options for R3
+// Implementation options for R3
 //
 // The one-byte implementation saves ~30 macrocells
 
-`define R3_FIFO_IMPL r3_fifo_onebyte
-//`define R3_FIFO_IMPL r3_fifo_twobyte
+// `define R3_FIFO_IMPL r3_fifo_onebyte
+`define R3_FIFO_IMPL r3_fifo_twobyte
 
 module tube
   (
