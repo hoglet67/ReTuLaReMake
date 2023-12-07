@@ -6,8 +6,8 @@
 // R124         R3         Constrained   Constrained  UnConstrained UnConstrained
 // shared       one-byte   72            74           72            74
 // shared       two-byte   101           104          100           104
-// exclusive    one-byte   106           115          106           117
-// exclusive    two-byte   145*          139*         131*          128*
+// exclusive    one-byte   106           106          106           106
+// exclusive    two-byte   145*          138*         131*          128*
 //
 // (*) Would not Fit and/or would not route
 
@@ -22,8 +22,21 @@
 //
 // The one-byte implementation saves ~30 macrocells
 
-`define R3_FIFO_IMPL r3_fifo_onebyte
-// `define R3_FIFO_IMPL r3_fifo_twobyte
+// `define R3_FIFO_IMPL r3_fifo_onebyte
+`define R3_FIFO_IMPL r3_fifo_twobyte
+
+// Uncomment for a more efficient implementation of the R124 Flags
+// when targeting XC9500XL CPLD (saves 6 microcells). This works less
+// well with the Altera EPM7128S in Quartus!
+//
+//                         Area          Speed        Area          Speed
+// R124         R3         Constrained   Constrained  UnConstrained UnConstrained
+// shared       one-byte   78    +6      80    +6     75      +3    77    +3
+// shared       two-byte   123   +22     102   -2     100      0    107   +3
+// exclusive    one-byte   109   +3      112   +6     109     +3    109   +3
+// exclusive    two-byte   144+  -1      142*  +4     127*    -4    128*   0
+//
+// `define XC9572XL
 
 module tube
   (
@@ -276,6 +289,18 @@ module r124_fifo_onebyte_shared
          3'b111: data <= wdata;
        endcase
 
+`ifdef XC9572XL
+   wire s1 = (wclk & wclken & waddr == 3'b001);
+   wire r1 = (       rclken & raddr == 3'b001);
+   wire s2 = (wclk & wclken & waddr == 3'b011);
+   wire r2 = (       rclken & raddr == 3'b011);
+   wire s4 = (wclk & wclken & waddr == 3'b111);
+   wire r4 = (       rclken & raddr == 3'b111);
+
+   as_ar_dff state_inst_1 (.clk(rclk), .s(s1), .r(reset), .clken(r1), .d(1'b0), .q(dav1));
+   as_ar_dff state_inst_2 (.clk(rclk), .s(s2), .r(reset), .clken(r2), .d(1'b0), .q(dav2));
+   as_ar_dff state_inst_3 (.clk(rclk), .s(s4), .r(reset), .clken(r4), .d(1'b0), .q(dav4));
+`else
    wire s1 = (       wclken & waddr == 3'b001);
    wire r1 = (rclk & rclken & raddr == 3'b001) | reset;
    wire s2 = (       wclken & waddr == 3'b011);
@@ -286,7 +311,7 @@ module r124_fifo_onebyte_shared
    ar_dff state_inst_1 (.clk(wclk), .r(r1), .clken(s1), .d(1'b1), .q(dav1));
    ar_dff state_inst_2 (.clk(wclk), .r(r2), .clken(s2), .d(1'b1), .q(dav2));
    ar_dff state_inst_3 (.clk(wclk), .r(r4), .clken(s4), .d(1'b1), .q(dav4));
-
+`endif
    assign data1 = data;
    assign data2 = data;
    assign data4 = data;
@@ -329,6 +354,18 @@ module r124_fifo_onebyte_exclusive
          3'b111: data4 <= wdata;
        endcase
 
+`ifdef XC9572XL
+   wire s1 = (wclk & wclken & waddr == 3'b001);
+   wire r1 = (       rclken & raddr == 3'b001);
+   wire s2 = (wclk & wclken & waddr == 3'b011);
+   wire r2 = (       rclken & raddr == 3'b011);
+   wire s4 = (wclk & wclken & waddr == 3'b111);
+   wire r4 = (       rclken & raddr == 3'b111);
+
+   as_ar_dff state_inst_1 (.clk(rclk), .s(s1), .r(reset), .clken(r1), .d(1'b0), .q(dav1));
+   as_ar_dff state_inst_2 (.clk(rclk), .s(s2), .r(reset), .clken(r2), .d(1'b0), .q(dav2));
+   as_ar_dff state_inst_3 (.clk(rclk), .s(s4), .r(reset), .clken(r4), .d(1'b0), .q(dav4));
+`else
    wire s1 = (       wclken & waddr == 3'b001);
    wire r1 = (rclk & rclken & raddr == 3'b001) | reset;
    wire s2 = (       wclken & waddr == 3'b011);
@@ -339,7 +376,7 @@ module r124_fifo_onebyte_exclusive
    ar_dff state_inst_1 (.clk(wclk), .r(r1), .clken(s1), .d(1'b1), .q(dav1));
    ar_dff state_inst_2 (.clk(wclk), .r(r2), .clken(s2), .d(1'b1), .q(dav2));
    ar_dff state_inst_3 (.clk(wclk), .r(r4), .clken(s4), .d(1'b1), .q(dav4));
-
+`endif
    assign sav1 = !dav1;
    assign sav2 = !dav2;
    assign sav4 = !dav4;
@@ -477,6 +514,25 @@ module ar_dff
       q = d;
 endmodule
 
+// A DFF with an asynchronous set, used as a flag primitive
+
+module as_ar_dff
+  (
+   input clk,
+   input clken,
+   input d,
+   input r,
+   input s,
+   output reg q
+   );
+  always @(negedge clk or posedge r or posedge s)
+    if (r)
+      q = 0;
+   else if (s)
+      q = 1;
+    else if (clken)
+      q = d;
+endmodule
 
 // An RS Latch, not currently used
 
