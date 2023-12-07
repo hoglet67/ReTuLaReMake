@@ -22,8 +22,8 @@
 //
 // The one-byte implementation saves ~30 macrocells
 
-// `define R3_FIFO_IMPL r3_fifo_onebyte
-`define R3_FIFO_IMPL r3_fifo_twobyte
+`define R3_FIFO_IMPL r3_fifo_onebyte
+// `define R3_FIFO_IMPL r3_fifo_twobyte
 
 module tube
   (
@@ -350,33 +350,31 @@ endmodule
 
 module r3_fifo_onebyte
   (
-   input        wclk,
-   input        wclken,
-   input [7:0]  wdata,
-   input        rclk,
-   input        rclken,
-   input        reset,
-   output [7:0] rdata,
-   input        v_flag,
-   output       dav,
-   output       sav
+   input            wclk,
+   input            wclken,
+   input [7:0]      wdata,
+   input            rclk,
+   input            rclken,
+   input            reset,
+   output reg [7:0] rdata,
+   input            v_flag,
+   output           dav,
+   output           sav
    );
 
    parameter    init_state = 0;
-   parameter    empty_value = 0;
+   parameter    empty_value = 0; // Ignored
 
    wire         r3_state;
    wire         r3_set   = (       wclken) | (reset & init_state);
    wire         r3_reset = (rclk & rclken) | (reset & !init_state);
-   reg [7:0]    data = 8'hAA;
 
    ar_dff state (.clk(wclk), .r(r3_reset), .clken(r3_set), .d(1'b1), .q(r3_state));
 
    always @(negedge wclk)
      if (wclken)
-       data <= wdata;
+       rdata <= wdata;
 
-   assign rdata = r3_state ? data : empty_value;
    assign dav = r3_state;
    assign sav = !r3_state;
 
