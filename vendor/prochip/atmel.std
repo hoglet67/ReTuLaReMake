@@ -1,0 +1,455 @@
+# --------------------------------------------------------------------------
+# This library is only for extra-wiring processing
+# --------------------------------------------------------------------------
+
+# INVERTER (1X) 
+GATE  0 0	not  0.50	50.00	z =  !a1;
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+
+PGATE  0 0      BUF     BI_BUF  bibuf	0.00     in       y       pad    oe 
+	RELATED_OUTPUT_PIN pad  16
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00
+
+PGATE  0 0      BUF     TS_BUF  tri	0.00    in      *       out    oe 
+        RELATED_OUTPUT_PIN out  16
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00
+
+PGATE 0 0 	THG	tri_th  1.67 in oe out 
+	 RELATED_OUTPUT_PIN out 3.25
+		 PIN      in UNKNOWN 0.10 0.10 0.55 3.08 0.50 2.26 0.00 0.00
+		 PIN     oe UNKNOWN 0.12 0.12 0.59 3.08 0.58 2.26 0.00 0.00
+
+
+# NON-INVERTING BUFFER (1X) 
+GATE  0 0       inbuf  0.50  50.00    z =   a1;
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+# 2-INPUT AND GATE 
+GATE  0 0	AND2  1.5	50.00	Z0 =   ( A0* A1);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 3-INPUT AND GATE 
+GATE  0 0	AND3  2.00	50.00	Z0 =   (A0* A1* A2);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 4-INPUT AND GATE 
+GATE  0 0	AND4  2.5	50.00	Z0 =   (A0* A1* A2* A3);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+
+# 5-INPUT AND GATE 
+GATE  0 0	AND5  2.5	50.00	Z0 =   (A0* A1* A2* A3* A4);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 6-INPUT AND GATE 
+GATE  0 0	AND6  3.5	50.00	Z0 =   (A0* A1* A2* A3* A4* A5);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 7-INPUT AND GATE 
+GATE  0 0	AND7  3.5	50.00	Z0 =   (A0* A1* A2* A3* A4* A5* A6);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 8-INPUT AND GATE 
+GATE  0 0	AND8  4.00	50.00	Z0 =   (A0* A1* A2* A3* A4* A5* A6* A7);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 9-INPUT AND GATE 
+GATE  0 0	AND9  4.00	50.00	Z0 =   (A0* A1* A2* A3* A4* A5* A6* A7* A8);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 10-INPUT AND GATE 
+GATE  0 0	AND10  7.00	50.00	Z0 =   (A0*A1*A2*A3*A4*A5*A6*A7*A8*A9);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 11-INPUT AND GATE 
+GATE  0 0	AND11  7.00	50.00	Z0 =   (A0*A1*A2*A3*A4*A5*A6*A7*A8*A9*A10);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 12-INPUT AND GATE 
+GATE  0 0	AND12  7.00	50.00	Z0 =   (A0*A1*A2*A3*A4*A5*A6*A7*A8*A9*A10*A11);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 2-INPUT NAND GATE 
+GATE  0 0	NAND2  1.00	50.00	Z0 =   !(A0* A1);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 3-INPUT NAND GATE 
+GATE  0 0	NAND3  1.50	50.00	Z0 =   !(A0* A1* A2);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 4-INPUT NAND GATE 
+GATE  0 0	NAND4  2.00	50.00	Z0 =   !(A0* A1* A2* A3);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 5-INPUT NAND GATE 
+GATE  0 0	NAND5  2.00	50.00	Z0 =   !(A0* A1* A2* A3* A4);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 6-INPUT NAND GATE 
+GATE  0 0	NAND6  3.00	50.00	Z0 =   !(A0* A1* A2* A3* A4* A5);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 7-INPUT NAND GATE 
+GATE  0 0	NAND7  3.00	50.00	Z0 =   !(A0* A1* A2* A3* A4* A5* A6);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 8-INPUT NAND GATE 
+GATE  0 0	NAND8  4.00	50.00	Z0 =   !(A0* A1* A2* A3* A4* A5* A6* A7);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 9-INPUT NAND GATE 
+GATE  0 0	NAND9  4.00	50.00	Z0 =   !(A0* A1* A2* A3* A4* A5* A6* A7* A8);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 10-INPUT NAND GATE 
+GATE  0 0	NAND10  7.00	50.00	Z0 =   !(A0*A1*A2*A3*A4*A5*A6*A7*A8*A9);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 11-INPUT NAND GATE 
+GATE  0 0	NAND11  7.00	50.00	Z0 =   !(A0*A1*A2*A3*A4*A5*A6*A7*A8*A9*A10);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 12-INPUT NAND GATE 
+GATE  0 0	NAND12  7.00	50.00	Z0 =   !(A0*A1*A2*A3*A4*A5*A6*A7*A8*A9*A10*A11);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 2-INPUT OR GATE 
+GATE  0 0	OR2  1.50	50.00	Z0 =   (A0+ A1);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 3-INPUT OR GATE 
+GATE  0 0	OR3  2.00	50.00	Z0 =   (A0+ A1+ A2);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 4-INPUT OR GATE 
+GATE  0 0	OR4  2.50	50.00	Z0 =   (A0+ A1+ A2+ A3);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 5-INPUT OR GATE 
+GATE  0 0	OR5  2.50	50.00	Z0 =   (A0+ A1+ A2+ A3+ A4);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 6-INPUT OR GATE 
+GATE  0 0	OR6  3.50	50.00	Z0 =   (A0+ A1+ A2+ A3+ A4+ A5);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 7-INPUT OR GATE 
+GATE  0 0	OR7  3.50	50.00	Z0 =   (A0+ A1+ A2+ A3+ A4+ A5+ A6);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 8-INPUT OR GATE 
+GATE  0 0	OR8  4.00	50.00	Z0 =   (A0+ A1+ A2+ A3+ A4+ A5+ A6+ A7);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 9-INPUT OR GATE 
+GATE  0 0	OR9  4.00	50.00	Z0 =   (A0+ A1+ A2+ A3+ A4+ A5+ A6+ A7+ A8);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 10-INPUT OR GATE 
+GATE  0 0	OR10  7.00	50.00	Z0 =   (A0+A1+A2+A3+A4+A5+A6+A7+A8+A9);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 11-INPUT OR GATE 
+GATE  0 0	OR11  7.00	50.00	Z0 =   (A0+A1+A2+A3+A4+A5+A6+A7+A8+A9+A10);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 12-INPUT OR GATE 
+GATE  0 0	OR12  7.00	50.00	Z0 =   (A0+A1+A2+A3+A4+A5+A6+A7+A8+A9+A10+A11);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 2-INPUT NOR GATE 
+GATE  0 0	NOR2  1.00	50.00	Z0 =   !(A0+ A1);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 3-INPUT NOR GATE 
+GATE  0 0	NOR3  1.50	50.00	Z0 =   !(A0+ A1+ A2);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 4-INPUT NOR GATE 
+GATE  0 0	NOR4  2.00	50.00	Z0 =   !(A0+ A1+ A2+ A3);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 5-INPUT NOR GATE 
+GATE  0 0	NOR5  2.00	50.00	Z0 =   !(A0+ A1+ A2+ A3+ A4);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 6-INPUT NOR GATE 
+GATE  0 0	NOR6  3.00	50.00	Z0 =   !(A0+ A1+ A2+ A3+ A4+ A5);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 7-INPUT NOR GATE 
+GATE  0 0	NOR7  3.00	50.00	Z0 =   !(A0+ A1+ A2+ A3+ A4+ A5+ A6);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 8-INPUT NOR GATE 
+GATE  0 0	NOR8  4.00	50.00	Z0 =   !(A0+ A1+ A2+ A3+ A4+ A5+ A6+ A7);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 9-INPUT NOR GATE 
+GATE  0 0	NOR9  4.00	50.00	Z0 =   !(A0+ A1+ A2+ A3+ A4+ A5+ A6+ A7+ A8);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 10-INPUT NOR GATE 
+GATE  0 0	NOR10  7.00	50.00	Z0 =   !(A0+A1+A2+A3+A4+A5+A6+A7+A8+A9);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 11-INPUT NOR GATE 
+GATE  0 0	NOR11  7.00	50.00	Z0 =   !(A0+A1+A2+A3+A4+A5+A6+A7+A8+A9+A10);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 12-INPUT NOR GATE 
+GATE  0 0	NOR12  7.00	50.00	Z0 =   !(A0+A1+A2+A3+A4+A5+A6+A7+A8+A9+A10+A11);
+	PIN      * NONINV  1.00 1.00 1.00 0.00 1.00 0.00
+
+# 2-INPUT EXCLUSIVE OR 
+GATE  0 0	XOR2  1.00	50.00	Z0 =   ( ( A0+ A1)*!( A0* A1));
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00
+
+# 3-INPUT EXCLUSIVE OR 
+GATE  0 0	XOR3  1.00	50.00	Z0 =   ((A0*((!A2*!A1)+(A2*A1)))+(!A0*((!A2*A1)+(A2*!A1))));
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00
+
+# 4-INPUT EXCLUSIVE OR 
+GATE  0 0	XOR4  1.00	50.00	Z0 = ((((!A0*!A1)+(A0*A1))*((A2*!A3)+(!A2*A3)))+(((A0*!A1)+(!A0*A1))*((!A2*!A3)+(A2*A3))));
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00
+# 2-INPUT EXCLUSIVE NOR 
+GATE  0 0	XNOR2  1.00		Z0 =  !(( A0+ A1)*!( A0* A1));
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00
+
+# 3-INPUT EXCLUSIVE NOR 
+GATE  0 0	XNOR3  1.00		Z0 =  !((A0+((A1+A2)*!(A1*A2)))*!(A0*((A1+A2)*!(A1*A2))));
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00
+
+# 4-INPUT EXCLUSIVE NOR 
+GATE  0 0	XNOR4  1.00		Z0 = !((((!A0*!A1)+(A0*A1))*((A2*!A3)+(!A2*A3)))+(((A0*!A1)+(!A0*A1))*((!A2*!A3)+(A2*A3))));
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00
+
+
+# LATCH 
+PGATE  0 0 	LG 	lat1  5.00		e L1 * * * * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat2  5.00		e L1 rst * * * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat3  5.00		e L1 * set * * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat4  5.00		e L1 rst set * * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat5  	5.00		e L1 * * * oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat6  5.00		e L1 rst * * oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# LATCH 
+PGATE  0 0 	LG 	lat7  5.00		e L1 * set * oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# LATCH 
+PGATE  0 0 	LG 	lat8  5.00		e L1 rst set * oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# LATCH 
+PGATE  0 0 	LG 	lat9  5.00		e L1 * * ce * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat10  5.00		e L1 rst * ce * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat11  5.00		e L1 * set ce * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat12  5.00		e L1 rst set ce * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat13  5.00		e L1 * * ce oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# LATCH 
+PGATE  0 0 	LG 	lat14  5.00		e L1 rst * ce oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# LATCH 
+PGATE  0 0 	LG 	lat15  5.00		e L1 * set ce oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# LATCH 
+PGATE  0 0 	LG 	lat32  5.00		e L1 rst set ce oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK * * * * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff5  5.00		cp RECK rst * * * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK * set * * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK rst set * * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff8f  5.00		cp RECK * * * oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK rst * * oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK * set * oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK rst set * oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK * * ce * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff5  5.00		cp RECK rst * ce * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK * set ce * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK rst set ce * d q * *
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff8f  5.00		cp RECK * * ce oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK rst * ce oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK * set ce oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# D FLIP-FLOP 
+PGATE  0 0	DG	dff9  5.00		cp RECK rst set ce oe d q * z
+	 RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff1  5.00		cp RECK * * * * t q * *
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff2  5.00		cp RECK rst * * * t q * *
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff3  5.00		cp RECK * set * * t q * *
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff4  5.00		cp RECK rst set * * t q * *
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff5  	5.00		cp RECK * * * oe t q * z
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff6  5.00		cp RECK rst * * oe t q * z
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff7  5.00		cp RECK * set * oe t q * z
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff8  5.00		cp RECK rst set * oe t q * z
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff9  5.00		cp RECK * * ce * t q * *
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff10  5.00		cp RECK rst * ce * t q * *
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff11  5.00		cp RECK * set ce * t q * *
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff12  5.00		cp RECK rst set ce * t q * *
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff13  5.00		cp RECK * * ce oe t q * z
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff14  5.00		cp RECK rst * ce oe t q * z
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff15  5.00		cp RECK * set ce oe t q * z
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+# T FLIP FLOP 
+PGATE  0 0 	TG 	tff32  5.00		cp RECK rst set ce oe t q * z
+	RELATED_OUTPUT_PIN q 50.00
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00 0.00 0.00
+
+
+GATE  0 0	VCC     0     z=CONST1;
+GATE  0 0	GND     0     z=CONST0;
+
+# EOF libraries  

@@ -1,0 +1,350 @@
+# --------------------------------------------------------------------------
+# GateType & Dont'touch & Don't-use & CellName & Area & MaxFanout & Equation
+# --------------------------------------------------------------------------
+GATE  0 0	"VCC"  0	X =   CONST1;
+#GATE  0 0	"POWER__1"  0	O =   CONST1;
+
+GATE  0 0	"GND"  00	X =   CONST0;
+#GATE  0 0	"POWER__0"  0	O =   CONST0;
+GATE  0 0	"GNDd"  00	Q =   CONST0;
+
+GATE  0 0	"BUF"  1.00	100.00	Q =   A;
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OUTBUF"  1.00	100.00	Q =   A;
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"INBUF"  1.00	100.00	Q =   A;
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"IBUF"  1.00	100.00	Q =   A;
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+# NOT GATE
+
+# GATE  0 0	"NOT"  1.00	100.00	QN =   !A;
+# 	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"INV"  1.00	100.00	QN =   !A;
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+# XOR GATE
+
+GATE  0 0	"XOR"  3.00	100.00	Q =   A*!B + !A*B;
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+GATE  0 0	"XOR2"  3.00	100.00	Q =   A*!B + !A*B;
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+
+# AND GATES
+
+GATE  0 0	"AND2"  2.00	100.00	Q =   (A*B);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND3"  3.00	100.00	Q =   (A*B*C);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND4"  4.00	100.00	Q =   (A*B*C*D);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND5"  5.00	100.00	Q =   (A*B*C*D*E);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND6"  6.00	100.00	Q =   (A*B*C*D*E*F);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND7"  7.00	100.00	Q =   (A*B*C*D*E*F*G);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND8"  8.00	100.00	Q =   (A*B*C*D*E*F*G*H);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND9"  8.00	100.00	Q =   (A*B*C*D*E*F*G*H*I);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND10"  8.00	100.00	Q =   (A*B*C*D*E*F*G*H*I*J);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND11"  8.00	100.00	Q =   (A*B*C*D*E*F*G*H*I*J*K);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND12"  8.00	100.00	Q =   (A*B*C*D*E*F*G*H*I*J*K*L);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND2I1"  2.00	100.00	Q =   (A*!BN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND2I2"  2.00	100.00	Q =   (!AN*!BN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND3I1"  3.00	100.00	Q =   (A*B*!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND3I2"  3.00	100.00	Q =   (A*!BN*!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND3I3"  3.00	100.00	Q =   (!AN*!BN*!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND4I1"  4.00	100.00	Q =   (A*B*C*!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND4I2"  4.00	100.00	Q =   (A*B*!CN*!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND4I3"  4.00	100.00	Q =   (A*!BN*!CN*!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"AND4I4"  4.00	100.00	Q =   (!AN*!BN*!CN*!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+
+# NAND GATES
+
+GATE  0 0	"NAND2"  2.00	100.00	QN =   !(A*B);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND3"  3.00	100.00	QN =   !(A*B*C);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND4"  4.00	100.00	QN =   !(A*B*C*D);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND5"  5.00	100.00	QN =   !(A*B*C*D*E);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND6"  6.00	100.00	QN =   !(A*B*C*D*E*F);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND7"  7.00	100.00	QN =   !(A*B*C*D*E*F*G);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND8"  8.00	100.00	QN =   !(A*B*C*D*E*F*G*H);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND9"  8.00	100.00	QN =   !(A*B*C*D*E*F*G*H*I);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND10"  8.00	100.00	QN =   !(A*B*C*D*E*F*G*H*I*J);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND11"  8.00	100.00	QN =   !(A*B*C*D*E*F*G*H*I*J*K);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND12"  8.00	100.00	QN =   !(A*B*C*D*E*F*G*H*I*J*K*L);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND2I1"  2.00	100.00	QN =   !(A*!BN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND2I2"  2.00	100.00	QN =   !(!AN*!BN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND3I1"  3.00	100.00	QN =   !(A*B*!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND3I2"  3.00	100.00	QN =   !(A*!BN*!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND3I3"  3.00	100.00	QN =   !(!AN*!BN*!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND4I1"  4.00	100.00	QN =   !(A*B*C*!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND4I2"  4.00	100.00	QN =   !(A*B*!CN*!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND4I3"  4.00	100.00	QN =   !(A*!BN*!CN*!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NAND4I4"  4.00	100.00	QN =   !(!AN*!BN*!CN*!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+# OR GATES
+GATE  0 0	"OR2"  2.00	100.00	Q =   (A+B);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR3"  3.00	100.00	Q =   (A+B+C);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR4"  4.00	100.00	Q =   (A+B+C+D);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR5"  5.00	100.00	Q =   (A+B+C+D+E);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR6"  6.00	100.00	Q =   (A+B+C+D+E+F);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR7"  7.00	100.00	Q =   (A+B+C+D+E+F+G);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR8"  8.00	100.00	Q =   (A+B+C+D+E+F+G+H);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR9"  8.00	100.00	Q =   (A+B+C+D+E+F+G+H+I);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR10"  8.00	100.00	Q =   (A+B+C+D+E+F+G+H+I+J);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR11"  8.00	100.00	Q =   (A+B+C+D+E+F+G+H+I+J+K);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR12"  8.00	100.00	Q =   (A+B+C+D+E+F+G+H+I+J+K+L);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR2I1"  2.00	100.00	Q =   (A+!BN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR2I2"  2.00	100.00	Q =   (!AN+!BN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR3I1"  3.00	100.00	Q =   (A+B+!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR3I2"  3.00	100.00	Q =   (A+!BN+!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR3I3"  3.00	100.00	Q =   (!AN+!BN+!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR4I1"  4.00	100.00	Q =   (A+B+C+!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR4I2"  4.00	100.00	Q =   (A+B+!CN+!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR4I3"  4.00	100.00	Q =   (A+!BN+!CN+!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"OR4I4"  4.00	100.00	Q =   (!AN+!BN+!CN+!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+
+# NOR GATES
+
+GATE  0 0	"NOR2"  2.00	100.00	QN =   !(A+B);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR3"  3.00	100.00	QN =   !(A+B+C);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR4"  4.00	100.00	QN =   !(A+B+C+D);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR5"  5.00	100.00	QN =   !(A+B+C+D+E);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR6"  6.00	100.00	QN =   !(A+B+C+D+E+F);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR7"  7.00	100.00	QN =   !(A+B+C+D+E+F+G);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR8"  8.00	100.00	QN =   !(A+B+C+D+E+F+G+H);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR9"  8.00	100.00	Q =   !(A+B+C+D+E+F+G+H+I);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR10"  8.00	100.00	Q =   !(A+B+C+D+E+F+G+H+I+J);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR11"  8.00	100.00	Q =   !(A+B+C+D+E+F+G+H+I+J+K);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR12"  8.00	100.00	Q =   !(A+B+C+D+E+F+G+H+I+J+K+L);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR2I1"  2.00	100.00	QN =   !(A+!BN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR2I2"  2.00	100.00	QN =   !(!AN+!BN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR3I1"  3.00	100.00	QN =   !(A+B+!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR3I2"  3.00	100.00	QN =   !(A+!BN+!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR3I3"  3.00	100.00	QN =   !(!AN+!BN+!CN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR4I1"  4.00	100.00	QN =   !(A+B+C+!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR4I2"  4.00	100.00	QN =   !(A+B+!CN+!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR4I3"  4.00	100.00	QN =   !(A+!BN+!CN+!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"NOR4I4"  4.00	100.00	QN =   !(!AN+!BN+!CN+!DN);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+GATE  0 0	"MUX2"  8.00	100.00	Q =   (!S0*M0)+(S0*M1);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+GATE  0 0	"MUX4"  8.00	100.00	Q =   (!S1*!S0*M0)+(!S1*S0*M1)+(S1*!S0*M2)+(S1*S0*M3);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+GATE  0 0	"MUX8"  8.00	100.00	Q =   (!S2*!S1*!S0*M0)+(!S2*!S1*S0*M1)+(!S2*S1*!S0*M2)+(!S2*S1*S0*M3)+(S2*!S1*!S0*M4)+(S2*!S1*S0*M5)+(S2*S1*!S0*M6)+(S2*S1*S0*M7);
+	PIN      * UNKNOWN  1.00 1.00 0.46 0.00 0.39 0.00
+
+# 2-INPUT EXCLUSIVE NOR 
+GATE  0 0	XNOR2  1.00		QN =  !(( A+ B)*!( A* B));
+		PIN      * UNKNOWN 1.00 1.00 1.00 0.00 1.00 0.00
+
+
+# --------------------------------------------------------------------------
+# Sequentiel Gate
+# Descripting the connectors :
+# 1: Name Of Clock 
+# 2: Type Of Clock (High or Low edge)
+# 3: Name Of Reset 
+# 4: Name Of Preset 
+# 5: Name Of Clock enable 
+# 6: Name Of Output Enable 
+# 7: Name Of Output Input Flip Flop 
+# 8: Name Of Output Output Flip Flop 
+# 9: Name Of Output Complemneted Output Flip Flop
+# 10: Name Of Output High inpedance Var
+# if the connector does not exist in the FLIP FLIP write *
+# For D Flip Flop write DG (Type); T ==> DT; JK ==> DJK 
+# --------------------------------------------------------------------------
+# D FLIP - FLOPS
+
+PGATE  0 0	DG	DFFEARS 6.00		CLK RECK AR AS CE * D Q QN *
+# PGATE  0 0	DG	DFFESRS 6.00		CLK RECK AR AS CE * D Q QN *
+PGATE  0 0	DG	DFF     6.00		CLK RECK * * * * D Q QN *
+PGATE  0 0	DG	DFFE    6.00		CLK RECK * * CE * D Q QN *
+PGATE  0 0	DG	DFFAR   6.00		CLK RECK AR * * * D Q QN *
+PGATE  0 0	DG	DFFAS 6.00		CLK RECK * AS * * D Q QN *
+PGATE  0 0	DG	DFFARS 6.00		CLK RECK AR AS * * D Q QN *
+
+###
+# LATCH
+PGATE  0 0 	LG 	LATCH  5.00		EN L1 AR AS CE * D Q QN *
+
+###
+# JK FLIP - FLOPS
+PGATE  0 0	JKG	JKFFEARS 12.00		CLK RECK !AR !AS CE * J K Q QN *
+
+# T FLIP - FLOPS
+PGATE  0 0	TG	TFF     12.00		CLK RECK * * * * T Q QN *
+PGATE  0 0	TG	TFFE    12.00		CLK RECK * * CE * T Q QN *
+PGATE  0 0	TG	TFFAR   12.00		CLK RECK AR * * * T Q QN *
+PGATE  0 0	TG	TFFAS   12.00		CLK RECK * AS * * T Q QN *
+PGATE  0 0	TG	TFFARS  12.00		CLK RECK AR AS * * T Q QN *
+PGATE  0 0	TG	TFFEARS 12.00		CLK RECK AR AS CE * T Q QN *
+
+# Tri-STATE Internal BUFFERS
+PGATE  0 0      THG	BUFTH  2.00        A     ENA        Q
+# Tri-STATE Internal BUFFERS
+PGATE  0 0      THG	TRI  2.00        A     ENA        Q
+# Tri-STATE Internal BUFFERS
+PGATE  0 0      BUF     BI_BUF  BIBUF	0.00     A       Q       PAD    EN 
+
+
+# EOF libraries  
