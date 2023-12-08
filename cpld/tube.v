@@ -22,8 +22,8 @@
 //
 // The one-byte implementation saves ~30 macrocells
 
-// `define R3_FIFO_IMPL r3_fifo_onebyte
-`define R3_FIFO_IMPL r3_fifo_twobyte
+`define R3_FIFO_IMPL r3_fifo_onebyte
+// `define R3_FIFO_IMPL r3_fifo_twobyte
 
 // Uncomment for a more efficient implementation of the R124 Flags
 // when targeting XC9500XL CPLD (saves 6 microcells). This works less
@@ -36,7 +36,8 @@
 // exclusive    one-byte   109   +3      112   +6     109     +3    109   +3
 // exclusive    two-byte   144+  -1      142*  +4     127*    -4    128*   0
 //
-// `define XC9572XL
+
+`define XC9572XL
 
 module tube
   (
@@ -47,8 +48,10 @@ module tube
    input       h_rdnw,
    input       h_rst_b,
    output      h_irq_b,
+`ifndef XC9572XL
    output      drq,
    input       dack_b,
+`endif
    input [2:0] p_addr,
    input       p_cs_b,
    inout [7:0] p_data,
@@ -100,10 +103,6 @@ module tube
    reg [7:0]   p_data_out;
 
    wire        nmi_flag;
-
-   wire        p_nmi;
-   wire        p_irq;
-   wire        h_irq;
 
    // Reset
    wire        tube_reset = !h_rst_b | t_flag;
@@ -236,20 +235,20 @@ module tube
 
    // interrupt logic
    assign nmi_flag = hp3_dav | ph3_sav;
-   assign p_nmi = m_flag & nmi_flag;
-   assign p_irq = (j_flag & hp4_dav) | (i_flag & hp1_dav);
-   assign h_irq = q_flag & ph4_dav;
+   assign p_nmi_b = !(m_flag & nmi_flag);
+   assign p_irq_b = !((j_flag & hp4_dav) | (i_flag & hp1_dav));
 
-   // interrupt tristate buffers
-   assign p_nmi_b = p_nmi ? 1'b0 : 1'bZ;
-   assign p_irq_b = p_irq ? 1'b0 : 1'bZ;
-   assign h_irq_b = h_irq ? 1'b0 : 1'bZ;
+`ifndef XC9572XL
+   assign h_irq_b = (q_flag & ph4_dav) ? 1'b0 : 1'bZ;
+`endif
 
-   // reset logic (simplified)
+   // reset logic
    assign p_rst_b = (!h_rst_b | p_flag) ? 1'b0 : 1'b1;
 
+`ifndef XC9572XL
    // DMA not implemented
    assign drq = 1'b0;
+`endif
 
 endmodule
 

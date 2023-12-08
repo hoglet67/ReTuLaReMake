@@ -1,0 +1,41 @@
+#NET "GND"      LOC="P"                              ; # DIP-40 pin 1
+#NET "VCC1"     LOC="P"                              ; # DIP-40 pin 2
+#NET "VCC2"     LOC="P"                              ; # DIP-40 pin 3
+#NET "VCC3"     LOC="P"                              ; # DIP-40 pin 4
+#NET "GND"      LOC="P19"                            ; # DIP-40 pin 5
+NET "h_data<0>" LOC="P20" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 6
+NET "h_data<1>" LOC="P21" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 7
+NET "h_data<2>" LOC="P22" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 8
+NET "h_data<3>" LOC="P23" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 9
+NET "h_data<4>" LOC="P27" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 10
+NET "h_data<5>" LOC="P28" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 11
+NET "h_data<6>" LOC="P29" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 12
+NET "h_data<7>" LOC="P30" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 13
+NET "h_addr<0>" LOC="P31"                            ; # DIP-40 pin 14
+NET "h_addr<1>" LOC="P32"                            ; # DIP-40 pin 15
+NET "h_addr<2>" LOC="P33"                            ; # DIP-40 pin 16
+NET "h_rdnw"    LOC="P34"                            ; # DIP-40 pin 17
+NET "h_cs_b"    LOC="P36"                            ; # DIP-40 pin 18
+NET "h_phi2"    LOC="P37"                            ; # DIP-40 pin 19
+NET "h_rst_b"   LOC="P38"                            ; # DIP-40 pin 20
+
+NET "p_cs_b"    LOC="P39"                            ; # DIP-40 pin 21
+NET "p_rd_b"    LOC="P40"                            ; # DIP-40 pin 22
+NET "p_wr_b"    LOC="P41"                            ; # DIP-40 pin 23
+#NET "dack_b"   LOC="P42"                            ; # DIP-40 pin 24
+NET "p_addr<2>" LOC="P43"                            ; # DIP-40 pin 25
+NET "p_addr<1>" LOC="P44"                            ; # DIP-40 pin 26
+NET "p_addr<0>" LOC="P1"                             ; # DIP-40 pin 27
+NET "p_data<7>" LOC="P2"  | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 28
+NET "p_data<6>" LOC="P3"  | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 29
+NET "p_data<5>" LOC="P5"  | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 30
+NET "p_data<4>" LOC="P6"  | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 31
+NET "p_data<3>" LOC="P7"  | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 32
+NET "p_data<2>" LOC="P8"  | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 33
+NET "p_data<1>" LOC="P12" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 34
+NET "p_data<0>" LOC="P13" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 35
+NET "p_irq_b"   LOC="P14" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 36
+NET "p_rst_b"   LOC="P16" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 37
+#NET "drq"      LOC="P"   | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 38
+#NET "h_irq_b"  LOC="P"   | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 39
+NET "p_nmi_b"   LOC="P18" | SLEW = SLOW | DRIVE = 4  ; # DIP-40 pin 40
