@@ -12,3 +12,11 @@ cpld/xilinx_fpga/working/
 cpld/xilinx_fpga/iseconfig/
 cpld/xilinx_cpld/working/
 cpld/xilinx_cpld/iseconfig/
+cpld/cupl/*.doc
+cpld/cupl/*.fit
+cpld/cupl/*.io
+cpld/cupl/*.jed
+cpld/cupl/*.pin
+cpld/cupl/*.pla
+cpld/cupl/*.tt2
+cpld/cupl/*.tt3
