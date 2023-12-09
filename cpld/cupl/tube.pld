@@ -260,152 +260,28 @@ p_rst_b = h_rst_b & !p_flag;
 
 // p_data output multiplexor
 
-p_data0 = !p_addr2 & !p_addr1 & !p_addr0 & control0    #
-          !p_addr2 & !p_addr1 &  p_addr0 & hp124_data0 #
-          !p_addr2 &  p_addr1 & !p_addr0               #
-          !p_addr2 &  p_addr1 &  p_addr0 & hp124_data0 #
-           p_addr2 & !p_addr1 & !p_addr0               #
-           p_addr2 & !p_addr1 &  p_addr0 & hp3_data0   #
-           p_addr2 &  p_addr1 & !p_addr0               #
-           p_addr2 &  p_addr1 &  p_addr0 & hp124_data0;
+unused5..0 = 'b'111111;
 
-p_data1 = !p_addr2 & !p_addr1 & !p_addr0 & control1    #
-          !p_addr2 & !p_addr1 &  p_addr0 & hp124_data1 #
-          !p_addr2 &  p_addr1 & !p_addr0               #
-          !p_addr2 &  p_addr1 &  p_addr0 & hp124_data1 #
-           p_addr2 & !p_addr1 & !p_addr0               #
-           p_addr2 & !p_addr1 &  p_addr0 & hp3_data1   #
-           p_addr2 &  p_addr1 & !p_addr0               #
-           p_addr2 &  p_addr1 &  p_addr0 & hp124_data1;
-
-p_data2 = !p_addr2 & !p_addr1 & !p_addr0 & control2    #
-          !p_addr2 & !p_addr1 &  p_addr0 & hp124_data2 #
-          !p_addr2 &  p_addr1 & !p_addr0               #
-          !p_addr2 &  p_addr1 &  p_addr0 & hp124_data2 #
-           p_addr2 & !p_addr1 & !p_addr0               #
-           p_addr2 & !p_addr1 &  p_addr0 & hp3_data2   #
-           p_addr2 &  p_addr1 & !p_addr0               #
-           p_addr2 &  p_addr1 &  p_addr0 & hp124_data2;
-
-p_data3 = !p_addr2 & !p_addr1 & !p_addr0 & control3    #
-          !p_addr2 & !p_addr1 &  p_addr0 & hp124_data3 #
-          !p_addr2 &  p_addr1 & !p_addr0               #
-          !p_addr2 &  p_addr1 &  p_addr0 & hp124_data3 #
-           p_addr2 & !p_addr1 & !p_addr0               #
-           p_addr2 & !p_addr1 &  p_addr0 & hp3_data3   #
-           p_addr2 &  p_addr1 & !p_addr0               #
-           p_addr2 &  p_addr1 &  p_addr0 & hp124_data3;
-
-p_data4 = !p_addr2 & !p_addr1 & !p_addr0 & control4    #
-          !p_addr2 & !p_addr1 &  p_addr0 & hp124_data4 #
-          !p_addr2 &  p_addr1 & !p_addr0               #
-          !p_addr2 &  p_addr1 &  p_addr0 & hp124_data4 #
-           p_addr2 & !p_addr1 & !p_addr0               #
-           p_addr2 & !p_addr1 &  p_addr0 & hp3_data4   #
-           p_addr2 &  p_addr1 & !p_addr0               #
-           p_addr2 &  p_addr1 &  p_addr0 & hp124_data4;
-
-p_data5 = !p_addr2 & !p_addr1 & !p_addr0 & control5    #
-          !p_addr2 & !p_addr1 &  p_addr0 & hp124_data5 #
-          !p_addr2 &  p_addr1 & !p_addr0               #
-          !p_addr2 &  p_addr1 &  p_addr0 & hp124_data5 #
-           p_addr2 & !p_addr1 & !p_addr0               #
-           p_addr2 & !p_addr1 &  p_addr0 & hp3_data5   #
-           p_addr2 &  p_addr1 & !p_addr0               #
-           p_addr2 &  p_addr1 &  p_addr0 & hp124_data5;
-
-p_data6 = !p_addr2 & !p_addr1 & !p_addr0 & ph1_sav     #
-          !p_addr2 & !p_addr1 &  p_addr0 & hp124_data6 #
-          !p_addr2 &  p_addr1 & !p_addr0 & ph2_sav     #
-          !p_addr2 &  p_addr1 &  p_addr0 & hp124_data6 #
-           p_addr2 & !p_addr1 & !p_addr0 & ph3_sav     #
-           p_addr2 & !p_addr1 &  p_addr0 & hp3_data6   #
-           p_addr2 &  p_addr1 & !p_addr0 & ph4_sav     #
-           p_addr2 &  p_addr1 &  p_addr0 & hp124_data6;
-
-p_data7 = !p_addr2 & !p_addr1 & !p_addr0 & nmi_flag    #
-          !p_addr2 & !p_addr1 &  p_addr0 & hp124_data7 #
-          !p_addr2 &  p_addr1 & !p_addr0 & hp2_dav     #
-          !p_addr2 &  p_addr1 &  p_addr0 & hp124_data7 #
-           p_addr2 & !p_addr1 & !p_addr0 & hp3_dav     #
-           p_addr2 & !p_addr1 &  p_addr0 & hp3_data7   #
-           p_addr2 &  p_addr1 & !p_addr0 & hp4_dav     #
-           p_addr2 &  p_addr1 &  p_addr0 & hp124_data7;
+[p_data7..0] = [nmi_flag, ph1_sav, control5..0] & (!p_addr2 & !p_addr1 & !p_addr0) #
+               [hp124_data7..0]                 & (!p_addr2 & !p_addr1 &  p_addr0) #
+               [hp2_dav, ph2_sav, unused5..0]   & (!p_addr2 &  p_addr1 & !p_addr0) #
+               [hp124_data7..0]                 & (!p_addr2 &  p_addr1 &  p_addr0) #
+               [hp3_dav, ph3_sav, unused5..0]   & ( p_addr2 & !p_addr1 & !p_addr0) #
+               [hp3_data7..0]                   & ( p_addr2 & !p_addr1 &  p_addr0) #
+               [hp4_dav, ph4_sav, unused5..0]   & ( p_addr2 &  p_addr1 & !p_addr0) #
+               [hp124_data7..0]                 & ( p_addr2 &  p_addr1 &  p_addr0);
 
 [p_data0..7].oe = !p_rd_b & h_rdnw & !p_cs_b;
 
 // h_data output multiplexor
 
-h_data0 = !h_addr2 & !h_addr1 & !h_addr0 & control0    #
-          !h_addr2 & !h_addr1 &  h_addr0 & ph124_data0 #
-          !h_addr2 &  h_addr1 & !h_addr0               #
-          !h_addr2 &  h_addr1 &  h_addr0 & ph124_data0 #
-           h_addr2 & !h_addr1 & !h_addr0               #
-           h_addr2 & !h_addr1 &  h_addr0 & ph3_data0   #
-           h_addr2 &  h_addr1 & !h_addr0               #
-           h_addr2 &  h_addr1 &  h_addr0 & ph124_data0;
-
-h_data1 = !h_addr2 & !h_addr1 & !h_addr0 & control1    #
-          !h_addr2 & !h_addr1 &  h_addr0 & ph124_data1 #
-          !h_addr2 &  h_addr1 & !h_addr0               #
-          !h_addr2 &  h_addr1 &  h_addr0 & ph124_data1 #
-           h_addr2 & !h_addr1 & !h_addr0               #
-           h_addr2 & !h_addr1 &  h_addr0 & ph3_data1   #
-           h_addr2 &  h_addr1 & !h_addr0               #
-           h_addr2 &  h_addr1 &  h_addr0 & ph124_data1;
-
-h_data2 = !h_addr2 & !h_addr1 & !h_addr0 & control2    #
-          !h_addr2 & !h_addr1 &  h_addr0 & ph124_data2 #
-          !h_addr2 &  h_addr1 & !h_addr0               #
-          !h_addr2 &  h_addr1 &  h_addr0 & ph124_data2 #
-           h_addr2 & !h_addr1 & !h_addr0               #
-           h_addr2 & !h_addr1 &  h_addr0 & ph3_data2   #
-           h_addr2 &  h_addr1 & !h_addr0               #
-           h_addr2 &  h_addr1 &  h_addr0 & ph124_data2;
-
-h_data3 = !h_addr2 & !h_addr1 & !h_addr0 & control3    #
-          !h_addr2 & !h_addr1 &  h_addr0 & ph124_data3 #
-          !h_addr2 &  h_addr1 & !h_addr0               #
-          !h_addr2 &  h_addr1 &  h_addr0 & ph124_data3 #
-           h_addr2 & !h_addr1 & !h_addr0               #
-           h_addr2 & !h_addr1 &  h_addr0 & ph3_data3   #
-           h_addr2 &  h_addr1 & !h_addr0               #
-           h_addr2 &  h_addr1 &  h_addr0 & ph124_data3;
-
-h_data4 = !h_addr2 & !h_addr1 & !h_addr0 & control4    #
-          !h_addr2 & !h_addr1 &  h_addr0 & ph124_data4 #
-          !h_addr2 &  h_addr1 & !h_addr0               #
-          !h_addr2 &  h_addr1 &  h_addr0 & ph124_data4 #
-           h_addr2 & !h_addr1 & !h_addr0               #
-           h_addr2 & !h_addr1 &  h_addr0 & ph3_data4   #
-           h_addr2 &  h_addr1 & !h_addr0               #
-           h_addr2 &  h_addr1 &  h_addr0 & ph124_data4;
-
-h_data5 = !h_addr2 & !h_addr1 & !h_addr0 & control5    #
-          !h_addr2 & !h_addr1 &  h_addr0 & ph124_data5 #
-          !h_addr2 &  h_addr1 & !h_addr0               #
-          !h_addr2 &  h_addr1 &  h_addr0 & ph124_data5 #
-           h_addr2 & !h_addr1 & !h_addr0               #
-           h_addr2 & !h_addr1 &  h_addr0 & ph3_data5   #
-           h_addr2 &  h_addr1 & !h_addr0               #
-           h_addr2 &  h_addr1 &  h_addr0 & ph124_data5;
-
-h_data6 = !h_addr2 & !h_addr1 & !h_addr0 & hp1_sav     #
-          !h_addr2 & !h_addr1 &  h_addr0 & ph124_data6 #
-          !h_addr2 &  h_addr1 & !h_addr0 & hp2_sav     #
-          !h_addr2 &  h_addr1 &  h_addr0 & ph124_data6 #
-           h_addr2 & !h_addr1 & !h_addr0 & hp3_sav     #
-           h_addr2 & !h_addr1 &  h_addr0 & ph3_data6   #
-           h_addr2 &  h_addr1 & !h_addr0 & hp4_sav     #
-           h_addr2 &  h_addr1 &  h_addr0 & ph124_data6;
-
-h_data7 = !h_addr2 & !h_addr1 & !h_addr0 & ph1_dav     #
-          !h_addr2 & !h_addr1 &  h_addr0 & ph124_data7 #
-          !h_addr2 &  h_addr1 & !h_addr0 & ph2_dav     #
-          !h_addr2 &  h_addr1 &  h_addr0 & ph124_data7 #
-           h_addr2 & !h_addr1 & !h_addr0 & ph3_dav     #
-           h_addr2 & !h_addr1 &  h_addr0 & ph3_data7   #
-           h_addr2 &  h_addr1 & !h_addr0 & ph4_dav     #
-           h_addr2 &  h_addr1 &  h_addr0 & ph124_data7;
+[h_data7..0] = [ph1_dav, hp1_sav, control5..0]  & (!h_addr2 & !h_addr1 & !h_addr0) #
+               [ph124_data7..0]                 & (!h_addr2 & !h_addr1 &  h_addr0) #
+               [ph2_dav, hp2_sav, unused5..0]   & (!h_addr2 &  h_addr1 & !h_addr0) #
+               [ph124_data7..0]                 & (!h_addr2 &  h_addr1 &  h_addr0) #
+               [ph3_dav, hp3_sav, unused5..0]   & ( h_addr2 & !h_addr1 & !h_addr0) #
+               [ph3_data7..0]                   & ( h_addr2 & !h_addr1 &  h_addr0) #
+               [ph4_dav, hp4_sav, unused5..0]   & ( h_addr2 &  h_addr1 & !h_addr0) #
+               [ph124_data7..0]                 & ( h_addr2 &  h_addr1 &  h_addr0);
 
 [h_data0..7].oe = h_phi2 & h_rdnw & !h_cs_b;
