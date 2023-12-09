@@ -37,7 +37,7 @@
 // exclusive    two-byte   144+  -1      142*  +4     127*    -4    128*   0
 //
 
-`define XC9572XL
+//`define XC9572XL
 
 module tube
   (
@@ -552,3 +552,40 @@ module rs_latch
       else if (s)
         q = 1;
 endmodule
+
+//PIN: CHIP "tube" ASSIGNED TO AN TQFP100
+//PIN: h_addr2 : 25;
+//PIN: h_addr1 : 40;
+//PIN: h_addr0 : 35;
+//PIN: h_cs_b  : 30;
+//PIN: h_data7 : 23;
+//PIN: h_data6 : 20;
+//PIN: h_data5 : 14;
+//PIN: h_data4 : 10;
+//PIN: h_data3 :  6;
+//PIN: h_data2 : 94;
+//PIN: h_data1 : 92;
+//PIN: h_data0 : 85;
+//PIN: h_phi2  : 31;
+//PIN: h_rdnw  : 29;
+//PIN: h_rst_b : 32;
+//PIN: h_irq_b : 98;
+//PIN: drq     : 97;
+//PIN: dack_b  : 47;
+//PIN: p_addr2 : 48;
+//PIN: p_addr1 : 42;
+//PIN: p_addr0 : 41;
+//PIN: p_cs_b  : 44;
+//PIN: p_data7 : 52;
+//PIN: p_data6 : 56;
+//PIN: p_data5 : 61;
+//PIN: p_data4 : 65;
+//PIN: p_data3 : 69;
+//PIN: p_data2 : 75;
+//PIN: p_data1 : 80;
+//PIN: p_data0 : 83;
+//PIN: p_rd_b  : 45;
+//PIN: p_wr_b  : 46;
+//PIN: p_rst_b : 96;
+//PIN: p_nmi_b : 99;
+//PIN: p_irq_b : 79;
