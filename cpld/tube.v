@@ -104,6 +104,9 @@ module tube
 
    wire        nmi_flag;
 
+   // Detect parasite powered down
+   wire        p_powered_off = !p_rd_b && !p_wr_b;
+
    // Reset
    wire        tube_reset = !h_rst_b | t_flag;
 
@@ -203,7 +206,9 @@ module tube
 
    // h_data multiplexor
    always @(*)
-     case (h_addr)
+     if (p_powered_off)
+       h_data_out = 8'hFE;
+     else case (h_addr)
        3'b000: h_data_out = {ph1_dav, hp1_sav, control[5:0]};
        3'b001: h_data_out = ph1_data;
        3'b010: h_data_out = {ph2_dav, hp2_sav, 6'b111111};
@@ -231,19 +236,19 @@ module tube
      endcase
 
    // p_data tristate buffer
-   assign p_data = (!p_cs_b && !p_rd_b) ? p_data_out : 8'bZZZZZZZZ;
+   assign p_data = (!p_cs_b && !p_rd_b && p_wr_b) ? p_data_out : 8'bZZZZZZZZ;
 
    // interrupt logic
    assign nmi_flag = hp3_dav | ph3_sav;
-   assign p_nmi_b = !(m_flag & nmi_flag);
-   assign p_irq_b = !((j_flag & hp4_dav) | (i_flag & hp1_dav));
+   assign p_nmi_b = !(m_flag & nmi_flag | p_powered_off);
+   assign p_irq_b = !((j_flag & hp4_dav) | (i_flag & hp1_dav) | p_powered_off);
 
 `ifndef XC9572XL
    assign h_irq_b = (q_flag & ph4_dav) ? 1'b0 : 1'bZ;
 `endif
 
    // reset logic
-   assign p_rst_b = (!h_rst_b | p_flag) ? 1'b0 : 1'b1;
+   assign p_rst_b = (!h_rst_b | p_flag | p_powered_off) ? 1'b0 : 1'b1;
 
 `ifndef XC9572XL
    // DMA not implemented
