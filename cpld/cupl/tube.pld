@@ -21,21 +21,22 @@ Device   f1508isptqfp100 ;
 //property atmel {security       off      };
 //property atmel {xor_synthesis  off      };
 
+$define FIX_PINOUT
 
-$ifdef FIX_PINPOUT
+$ifdef FIX_PINOUT
 
 pin 25 = h_addr2;
-pin 37 = h_addr1;
+pin 40 = h_addr1;
 pin 35 = h_addr0;
 pin 30 = h_cs_b;
-pin 24 = h_data7;
+pin 23 = h_data7;
 pin 20 = h_data6;
-pin 16 = h_data5;
+pin 14 = h_data5;
 pin 10 = h_data4;
 pin  6 = h_data3;
-pin  2 = h_data2;
+pin 94 = h_data2;
 pin 92 = h_data1;
-pin 93 = h_data0;
+pin 85 = h_data0;
 pin 31 = h_phi2;
 pin 29 = h_rdnw;
 pin 32 = h_rst_b;
@@ -48,9 +49,9 @@ pin 41 = p_addr0;
 pin 44 = p_cs_b;
 pin 52 = p_data7;
 pin 56 = p_data6;
-pin 60 = p_data5;
+pin 61 = p_data5;
 pin 65 = p_data4;
-pin 70 = p_data3;
+pin 69 = p_data3;
 pin 75 = p_data2;
 pin 80 = p_data1;
 pin 83 = p_data0;
