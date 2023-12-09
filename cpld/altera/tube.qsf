@@ -53,17 +53,17 @@ set_global_assignment -name VERILOG_FILE ../tube.v
 
 
 set_location_assignment PIN_25 -to h_addr[2]
-set_location_assignment PIN_37 -to h_addr[1]
+set_location_assignment PIN_40 -to h_addr[1]
 set_location_assignment PIN_35 -to h_addr[0]
 set_location_assignment PIN_30 -to h_cs_b
-set_location_assignment PIN_24 -to h_data[7]
+set_location_assignment PIN_23 -to h_data[7]
 set_location_assignment PIN_20 -to h_data[6]
-set_location_assignment PIN_16 -to h_data[5]
+set_location_assignment PIN_14 -to h_data[5]
 set_location_assignment PIN_10 -to h_data[4]
 set_location_assignment PIN_6 -to h_data[3]
-set_location_assignment PIN_2 -to h_data[2]
+set_location_assignment PIN_94 -to h_data[2]
 set_location_assignment PIN_92 -to h_data[1]
-set_location_assignment PIN_93 -to h_data[0]
+set_location_assignment PIN_85 -to h_data[0]
 set_location_assignment PIN_31 -to h_phi2
 set_location_assignment PIN_29 -to h_rdnw
 set_location_assignment PIN_32 -to h_rst_b
@@ -76,9 +76,9 @@ set_location_assignment PIN_41 -to p_addr[0]
 set_location_assignment PIN_44 -to p_cs_b
 set_location_assignment PIN_52 -to p_data[7]
 set_location_assignment PIN_56 -to p_data[6]
-set_location_assignment PIN_60 -to p_data[5]
+set_location_assignment PIN_61 -to p_data[5]
 set_location_assignment PIN_65 -to p_data[4]
-set_location_assignment PIN_70 -to p_data[3]
+set_location_assignment PIN_69 -to p_data[3]
 set_location_assignment PIN_75 -to p_data[2]
 set_location_assignment PIN_80 -to p_data[1]
 set_location_assignment PIN_83 -to p_data[0]
@@ -90,3 +90,4 @@ set_location_assignment PIN_79 -to p_irq_b
 
 set_global_assignment -name MAX7000_OPTIMIZATION_TECHNIQUE AREA
 set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS OFF
+set_global_assignment -name MAX7000_DEVICE_IO_STANDARD TTL
