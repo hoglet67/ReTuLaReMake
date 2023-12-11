@@ -232,14 +232,14 @@ ph2_dav = ph2_state;
 ph3_dav = ph3_state;
 ph4_dav = ph4_state;
 
-hp1_sav = !ph1_state & !ph2_state & !ph4_state;
-hp2_sav = !ph1_state & !ph2_state & !ph4_state;
-hp3_sav = !ph3_state;
-hp4_sav = !ph1_state & !ph2_state & !ph4_state;
-ph1_sav = !hp1_state & !hp2_state & !hp4_state;
-ph2_sav = !hp1_state & !hp2_state & !hp4_state;
-ph3_sav = !hp3_state;
-ph4_sav = !hp1_state & !hp2_state & !hp4_state;
+hp1_sav = !hp1_state & !hp2_state & !hp4_state;
+hp2_sav = !hp1_state & !hp2_state & !hp4_state;
+hp3_sav = !hp3_state;
+hp4_sav = !hp1_state & !hp2_state & !hp4_state;
+ph1_sav = !ph1_state & !ph2_state & !ph4_state;
+ph2_sav = !ph1_state & !ph2_state & !ph4_state;
+ph3_sav = !ph3_state;
+ph4_sav = !ph1_state & !ph2_state & !ph4_state;
 
 nmi_flag = hp3_dav # ph3_sav;
 
