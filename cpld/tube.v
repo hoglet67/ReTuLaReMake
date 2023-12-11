@@ -47,8 +47,8 @@ module tube
    input       h_phi2,
    input       h_rdnw,
    input       h_rst_b,
-   output      h_irq_b,
 `ifndef XC9572XL
+   output      h_irq_b,
    output      drq,
    input       dack_b,
 `endif
@@ -238,6 +238,9 @@ module tube
    // p_data tristate buffer
    assign p_data = (!p_cs_b && !p_rd_b && p_wr_b) ? p_data_out : 8'bZZZZZZZZ;
 
+   // reset logic
+   assign p_rst_b = (!h_rst_b | p_flag | p_powered_off) ? 1'b0 : 1'b1;
+
    // interrupt logic
    assign nmi_flag = hp3_dav | ph3_sav;
    assign p_nmi_b = !(m_flag & nmi_flag | p_powered_off);
@@ -245,12 +248,6 @@ module tube
 
 `ifndef XC9572XL
    assign h_irq_b = (q_flag & ph4_dav) ? 1'b0 : 1'bZ;
-`endif
-
-   // reset logic
-   assign p_rst_b = (!h_rst_b | p_flag | p_powered_off) ? 1'b0 : 1'b1;
-
-`ifndef XC9572XL
    // DMA not implemented
    assign drq = 1'b0;
 `endif
@@ -554,38 +551,38 @@ module rs_latch
 endmodule
 
 //PIN: CHIP "tube" ASSIGNED TO AN TQFP100
-//PIN: h_addr2 : 25;
-//PIN: h_addr1 : 40;
-//PIN: h_addr0 : 35;
-//PIN: h_cs_b  : 30;
-//PIN: h_data7 : 23;
-//PIN: h_data6 : 20;
-//PIN: h_data5 : 14;
-//PIN: h_data4 : 10;
-//PIN: h_data3 :  6;
-//PIN: h_data2 : 94;
-//PIN: h_data1 : 92;
-//PIN: h_data0 : 85;
-//PIN: h_phi2  : 31;
-//PIN: h_rdnw  : 29;
-//PIN: h_rst_b : 32;
-//PIN: h_irq_b : 98;
-//PIN: drq     : 97;
-//PIN: dack_b  : 47;
-//PIN: p_addr2 : 48;
-//PIN: p_addr1 : 42;
-//PIN: p_addr0 : 41;
-//PIN: p_cs_b  : 44;
-//PIN: p_data7 : 52;
-//PIN: p_data6 : 56;
-//PIN: p_data5 : 61;
-//PIN: p_data4 : 65;
-//PIN: p_data3 : 69;
-//PIN: p_data2 : 75;
-//PIN: p_data1 : 80;
-//PIN: p_data0 : 83;
-//PIN: p_rd_b  : 45;
-//PIN: p_wr_b  : 46;
-//PIN: p_rst_b : 96;
-//PIN: p_nmi_b : 99;
-//PIN: p_irq_b : 79;
+//PIN: h_addr_2 : 25;
+//PIN: h_addr_1 : 40;
+//PIN: h_addr_0 : 35;
+//PIN: h_cs_b   : 30;
+//PIN: h_data_7 : 23;
+//PIN: h_data_6 : 20;
+//PIN: h_data_5 : 14;
+//PIN: h_data_4 : 10;
+//PIN: h_data_3 :  6;
+//PIN: h_data_2 : 94;
+//PIN: h_data_1 : 92;
+//PIN: h_data_0 : 85;
+//PIN: h_phi2   : 31;
+//PIN: h_rdnw   : 29;
+//PIN: h_rst_b  : 32;
+//PIN: h_irq_b  : 98;
+//PIN: drq      : 97;
+//PIN: dack_b   : 47;
+//PIN: p_addr_2 : 48;
+//PIN: p_addr_1 : 42;
+//PIN: p_addr_0 : 41;
+//PIN: p_cs_b   : 44;
+//PIN: p_data_7 : 52;
+//PIN: p_data_6 : 56;
+//PIN: p_data_5 : 61;
+//PIN: p_data_4 : 65;
+//PIN: p_data_3 : 69;
+//PIN: p_data_2 : 75;
+//PIN: p_data_1 : 80;
+//PIN: p_data_0 : 83;
+//PIN: p_rd_b   : 45;
+//PIN: p_wr_b   : 46;
+//PIN: p_rst_b  : 96;
+//PIN: p_nmi_b  : 99;
+//PIN: p_irq_b  : 79;
