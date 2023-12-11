@@ -103,24 +103,9 @@ pin    = p_irq_b;
 
 $ENDIF
 
-// Buried registers
-node ph1_state;
-node ph2_state;
-node ph3_state;
-node ph4_state;
-node hp1_state;
-node hp2_state;
-node hp3_state;
-node hp4_state;
-node [control6..0];
-node [ph124_data7..0];
-node [ph3_data7..0];
-node [hp124_data7..0];
-node [hp3_data7..0];
+// Force creation of intermediate nodes
 
-node hwrite_r124;
 node hwrite_r3;
-node paccess_r124;
 node paccess_r3;
 
 // Intermediate values
@@ -145,9 +130,9 @@ paccess_r2 = !p_cs_b & !p_addr2 &  p_addr1 &  p_addr0;
 paccess_r3 = !p_cs_b &  p_addr2 & !p_addr1 &  p_addr0;
 paccess_r4 = !p_cs_b &  p_addr2 &  p_addr1 &  p_addr0;
 
-
 // Control Register
 // Note: .ce and .clk share a product term, unless .clk is on a global input
+node [control6..0];
 [control6..0].ck = !h_phi2;
 [control6..1].ar = !h_rst_b;
 [control0].ap    = !h_rst_b;
@@ -159,7 +144,6 @@ control4.t = hwrite_c & !h_data4 & (control4 $ h_data7);
 control5.t = hwrite_c & !h_data5 & (control5 $ h_data7);
 control6.t = hwrite_c & !h_data6 & (control6 $ h_data7);
 
-
 t_flag = control6; // Tube reset: a '1' holds the PH/HP FIFOs in their reset state
 p_flag = control5; // Parasite reset a '1->0' transision p_rst_b to be asserted for 80us
 v_flag = control4; // Two byte mode: a '1' causes PH3/HP3 to operate in two-byte mode
@@ -168,82 +152,101 @@ j_flag = control2; // PIEQ from HP4 non-empty
 i_flag = control1; // PIRQ from HP1 non-empty
 q_flag = control0; // HIRQ from PH4 non-empty
 
-// R1, R2, R4 registers
+// HP1/2/4 FIFOs
 
+node [hp124_reg7..0];
+node hwrite_r124;
 hwrite_r124  = hwrite_r1 # hwrite_r2 # hwrite_r4;
-paccess_r124 = paccess_r1 # paccess_r2 # paccess_r4;
+[hp124_reg7..0].ck = !h_phi2;
+[hp124_reg7..0].d  = [h_data7..0] & hwrite_r124 # [hp124_reg7..0] & !hwrite_r124;
 
-[hp124_data7..0].ck = !h_phi2;
-[hp124_data7..0].d  = [h_data7..0] & hwrite_r124 # [hp124_data7..0] & !hwrite_r124;
-
-[ph124_data7..0].ck = p_wr_b;
-[ph124_data7..0].d  = [p_data7..0] & paccess_r124 # [ph124_data7..0] & !paccess_r124;
-
-// R3 Registers
-
-[hp3_data7..0].ck = !h_phi2;
-[hp3_data7..0].d =  [h_data7..0] & hwrite_r3 # [hp3_data7..0] & !hwrite_r3;
-
-[ph3_data7..0].ck = p_wr_b;
-[ph3_data7..0].d =  [p_data7..0] & paccess_r3 # [ph3_data7..0] & !paccess_r3;
-
-// Flag Registers
-
+node hp1_state;
+node hp2_state;
+node hp4_state;
 hp1_state.ck = !h_phi2;
 hp1_state.t  = !hp1_state & hwrite_r1;
 hp1_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r1);
-
 hp2_state.ck = !h_phi2;
 hp2_state.t  = !hp2_state & hwrite_r2;
 hp2_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r2);
-
-hp3_state.ck = !h_phi2;
-hp3_state.t  = !hp3_state & hwrite_r3;
-hp3_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r3);
-
 hp4_state.ck = !h_phi2;
 hp4_state.t  = !hp4_state & hwrite_r4;
 hp4_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r4);
 
+hp1_dav = hp1_state;
+hp2_dav = hp2_state;
+hp4_dav = hp4_state;
+hp1_sav = !hp1_state & !hp2_state & !hp4_state;
+hp2_sav = !hp1_state & !hp2_state & !hp4_state;
+hp4_sav = !hp1_state & !hp2_state & !hp4_state;
+[hp1_data7..0] = [hp124_reg7..0];
+[hp2_data7..0] = [hp124_reg7..0];
+[hp4_data7..0] = [hp124_reg7..0];
+
+// PH1/2/4 FIFOS
+
+node [ph124_reg7..0];
+node paccess_r124;
+paccess_r124 = paccess_r1 # paccess_r2 # paccess_r4;
+[ph124_reg7..0].ck = p_wr_b;
+[ph124_reg7..0].d  = [p_data7..0] & paccess_r124 # [ph124_reg7..0] & !paccess_r124;
+
+node ph1_state;
+node ph2_state;
+node ph4_state;
 ph1_state.ck = p_wr_b;
 ph1_state.t  = !ph1_state & paccess_r1;
 ph1_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r1);
-
 ph2_state.ck = p_wr_b;
 ph2_state.t  = !ph2_state & paccess_r2;
 ph2_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r2);
-
-ph3_state.ck = p_wr_b;
-ph3_state.t  = !ph3_state & paccess_r3;
-ph3_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r3);
-
 ph4_state.ck = p_wr_b;
 ph4_state.t  = !ph4_state & paccess_r4;
 ph4_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r4);
 
-// FIFO DAV/SAV values
-
-hp1_dav = hp1_state;
-hp2_dav = hp2_state;
-hp3_dav = hp3_state;
-hp4_dav = hp4_state;
 ph1_dav = ph1_state;
 ph2_dav = ph2_state;
-ph3_dav = ph3_state;
 ph4_dav = ph4_state;
-
-hp1_sav = !hp1_state & !hp2_state & !hp4_state;
-hp2_sav = !hp1_state & !hp2_state & !hp4_state;
-hp3_sav = !hp3_state;
-hp4_sav = !hp1_state & !hp2_state & !hp4_state;
 ph1_sav = !ph1_state & !ph2_state & !ph4_state;
 ph2_sav = !ph1_state & !ph2_state & !ph4_state;
-ph3_sav = !ph3_state;
 ph4_sav = !ph1_state & !ph2_state & !ph4_state;
+[ph1_data7..0] = [ph124_reg7..0];
+[ph2_data7..0] = [ph124_reg7..0];
+[ph4_data7..0] = [ph124_reg7..0];
 
-nmi_flag = hp3_dav # ph3_sav;
+// HP3 FIFO
+
+node [hp3_reg7..0];
+[hp3_reg7..0].ck = !h_phi2;
+[hp3_reg7..0].d =  [h_data7..0] & hwrite_r3 # [hp3_reg7..0] & !hwrite_r3;
+
+node hp3_state;
+hp3_state.ck = !h_phi2;
+hp3_state.t  = !hp3_state & hwrite_r3;
+hp3_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r3);
+
+hp3_dav = hp3_state;
+hp3_sav = !hp3_state;
+[hp3_data7..0] = [hp3_reg7..0];
+
+// PH3 FIFO
+
+node [ph3_reg7..0];
+[ph3_reg7..0].ck = p_wr_b;
+[ph3_reg7..0].d =  [p_data7..0] & paccess_r3 # [ph3_reg7..0] & !paccess_r3;
+
+node ph3_state;
+ph3_state.ck = p_wr_b;
+ph3_state.t  = !ph3_state & paccess_r3;
+ph3_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r3);
+
+ph3_sav = !ph3_state;
+ph3_dav = ph3_state;
+[ph3_data7..0] = [ph3_reg7..0];
 
 // Interrupt locgic
+
+nmi_flag = hp3_dav # ph3_sav;
 
 p_nmi_b = !(m_flag & nmi_flag);
 
@@ -262,25 +265,25 @@ p_rst_b = h_rst_b & !p_flag;
 unused5..0 = 'b'111111;
 
 [p_data7..0] = [nmi_flag, ph1_sav, control5..0] & (!p_addr2 & !p_addr1 & !p_addr0) #
-               [hp124_data7..0]                 & (!p_addr2 & !p_addr1 &  p_addr0) #
+               [hp1_data7..0]                   & (!p_addr2 & !p_addr1 &  p_addr0) #
                [hp2_dav, ph2_sav, unused5..0]   & (!p_addr2 &  p_addr1 & !p_addr0) #
-               [hp124_data7..0]                 & (!p_addr2 &  p_addr1 &  p_addr0) #
+               [hp2_data7..0]                   & (!p_addr2 &  p_addr1 &  p_addr0) #
                [hp3_dav, ph3_sav, unused5..0]   & ( p_addr2 & !p_addr1 & !p_addr0) #
                [hp3_data7..0]                   & ( p_addr2 & !p_addr1 &  p_addr0) #
                [hp4_dav, ph4_sav, unused5..0]   & ( p_addr2 &  p_addr1 & !p_addr0) #
-               [hp124_data7..0]                 & ( p_addr2 &  p_addr1 &  p_addr0);
+               [hp4_data7..0]                   & ( p_addr2 &  p_addr1 &  p_addr0);
 
 [p_data0..7].oe = !p_rd_b & h_rdnw & !p_cs_b;
 
 // h_data output multiplexor
 
 [h_data7..0] = [ph1_dav, hp1_sav, control5..0]  & (!h_addr2 & !h_addr1 & !h_addr0) #
-               [ph124_data7..0]                 & (!h_addr2 & !h_addr1 &  h_addr0) #
+               [ph1_data7..0]                   & (!h_addr2 & !h_addr1 &  h_addr0) #
                [ph2_dav, hp2_sav, unused5..0]   & (!h_addr2 &  h_addr1 & !h_addr0) #
-               [ph124_data7..0]                 & (!h_addr2 &  h_addr1 &  h_addr0) #
+               [ph2_data7..0]                   & (!h_addr2 &  h_addr1 &  h_addr0) #
                [ph3_dav, hp3_sav, unused5..0]   & ( h_addr2 & !h_addr1 & !h_addr0) #
                [ph3_data7..0]                   & ( h_addr2 & !h_addr1 &  h_addr0) #
                [ph4_dav, hp4_sav, unused5..0]   & ( h_addr2 &  h_addr1 & !h_addr0) #
-               [ph124_data7..0]                 & ( h_addr2 &  h_addr1 &  h_addr0);
+               [ph4_data7..0]                   & ( h_addr2 &  h_addr1 &  h_addr0);
 
 [h_data0..7].oe = h_phi2 & h_rdnw & !h_cs_b;
