@@ -21,8 +21,7 @@ Device   f1508isptqfp100 ;
 //property atmel {security       off      };
 //property atmel {xor_synthesis  off      };
 
-property atmel {cascade_logic  on       };
-property atmel {foldback_logic off      };
+property atmel {preassign      keep     };
 
 $define FIX_PINOUT
 
