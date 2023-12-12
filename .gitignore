@@ -4,6 +4,9 @@ not_in_git/
 kicad/*.bak
 kicad/ReTuLaReMake-backups/
 kicad/fp-info-cache
+kicad_jk/*.bak
+kicad_jk/ReTuLaReMake-backups/
+kicad_jk/fp-info-cache
 cpld/altera/db/
 cpld/altera/incremental_db/
 cpld/altera/output_files/
