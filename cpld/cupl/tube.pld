@@ -23,7 +23,9 @@ Device   f1508isptqfp100 ;
 
 property atmel {preassign      keep     };
 property atmel {global_oe      h_data0,p_data0 };
-//property atmel {xor_synthesis  on       };
+property atmel {xor_synthesis  on       };
+
+// $define IMPL_HIRQ
 
 $define HP124_EXCLUSIVE
 
@@ -33,7 +35,7 @@ $define HP3_TWOBYTE
 
 $define PH3_TWOBYTE
 
-// $define FIX_PINOUT
+$define FIX_PINOUT
 
 $ifdef FIX_PINOUT
 
@@ -52,7 +54,9 @@ pin  35 = h_data0;
 pin  87 = h_phi2;
 pin  78 = h_rdnw;
 pin  89 = h_rst_b;
+$ifdef IMPL_HIRQ
 pin  48 = h_irq_b;
+$endif
 pin  47 = drq;
 pin  99 = dack_b;
 pin 100 = p_addr2;
@@ -90,7 +94,9 @@ pin    = h_data0;
 pin    = h_phi2;
 pin    = h_rdnw;
 pin    = h_rst_b;
+$ifdef IMPL_HIRQ
 pin    = h_irq_b;
+$endif
 pin    = drq;
 pin    = dack_b;
 pin    = p_addr2;
@@ -432,8 +438,10 @@ p_nmi_b = !(m_flag & nmi_flag # p_powered_off);
 
 p_irq_b = !((j_flag & hp4_dav) # (i_flag & hp1_dav) # p_powered_off);
 
+$ifdef IMPL_HIRQ
 h_irq_b = 'b'0;
 h_irq_b.oe = q_flag & ph4_dav;
+$endif
 
 // Reset logic
 
