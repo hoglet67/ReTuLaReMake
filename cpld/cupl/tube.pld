@@ -23,12 +23,17 @@ Device   f1508isptqfp100 ;
 
 property atmel {preassign      keep     };
 property atmel {global_oe      h_data0,p_data0 };
+//property atmel {xor_synthesis  on       };
 
 $define HP124_EXCLUSIVE
 
 $define PH124_EXCLUSIVE
 
-$define FIX_PINOUT
+$define HP3_TWOBYTE
+
+$define PH3_TWOBYTE
+
+// $define FIX_PINOUT
 
 $ifdef FIX_PINOUT
 
@@ -62,7 +67,7 @@ pin  19 = p_data3;
 pin  25 = p_data2;
 pin  30 = p_data1;
 pin  33 = p_data0;
-pin  98 = p_rd_b;
+pin  85 = p_rd_b;
 pin  90 = p_wr_b;
 pin  46 = p_rst_b;
 pin  49 = p_nmi_b;
@@ -292,6 +297,53 @@ $endif
 
 // HP3 FIFO
 
+$ifdef HP3_TWOBYTE
+
+node hp3_wptr;
+node hp3_rptr;
+node hp3_full;
+node hp3_empty;
+
+hp3_wptr.ck = !h_phi2;
+hp3_wptr.ar = !h_rst_b # control6;
+hp3_wptr.ce = hwrite_r3 & !hp3_full;
+hp3_wptr.d  = !hp3_wptr;
+
+hp3_rptr.ck = p_rd_b;
+hp3_rptr.ar = !h_rst_b # control6;
+hp3_rptr.ce = paccess_r3 & !hp3_empty;
+hp3_rptr.d  = !hp3_rptr;
+
+hp3_full.ck = !h_phi2;
+hp3_full.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r3);
+hp3_full.ce = hwrite_r3 & !hp3_full;
+hp3_full.d  = hp3_rptr $ hp3_wptr;
+
+hp3_empty.ck = p_rd_b;
+hp3_empty.ar = (h_phi2 & hwrite_r3);
+hp3_empty.ap = !h_rst_b # control6;
+hp3_empty.ce = paccess_r3 & !hp3_empty;
+hp3_empty.d  = hp3_rptr $ hp3_wptr;
+
+node [hp3_rega7..0];
+[hp3_rega7..0].ck = !h_phi2;
+[hp3_rega7..0].ce = hwrite_r3 & !hp3_wptr;
+[hp3_rega7..0].d  = [h_data7..0];
+
+node [hp3_regb7..0];
+[hp3_regb7..0].ck = !h_phi2;
+[hp3_regb7..0].ce = hwrite_r3 & hp3_wptr;
+[hp3_regb7..0].d  = [h_data7..0];
+
+// TODO: Empty value
+[hp3_data7..0] = [hp3_rega7..0] & !hp3_rptr #
+                 [hp3_regb7..0] &  hp3_rptr;
+
+hp3_dav = !v_flag & !hp3_empty # v_flag & hp3_full;
+hp3_sav = hp3_empty;
+
+$else
+
 node [hp3_reg7..0];
 [hp3_reg7..0].ck = !h_phi2;
 [hp3_reg7..0].ce = hwrite_r3;
@@ -306,7 +358,55 @@ hp3_dav = hp3_state;
 hp3_sav = !hp3_state;
 [hp3_data7..0] = [hp3_reg7..0];
 
+$endif
+
 // PH3 FIFO
+
+$ifdef PH3_TWOBYTE
+
+node ph3_wptr;
+node ph3_rptr;
+node ph3_full;
+node ph3_empty;
+
+ph3_wptr.ck = p_wr_b;
+ph3_wptr.ap = !h_rst_b # control6;
+ph3_wptr.ce = paccess_r3 & !ph3_full;
+ph3_wptr.d  = !ph3_wptr;
+
+ph3_rptr.ck = !h_phi2;
+ph3_rptr.ar = !h_rst_b # control6;
+ph3_rptr.ce = hwrite_r3 & !ph3_empty;
+ph3_rptr.d  = !ph3_rptr;
+
+ph3_full.ck = p_wr_b;
+ph3_full.ar = !h_rst_b # control6 # (h_phi2 & hread_r3);
+ph3_full.ce = paccess_r3 & !ph3_full;
+ph3_full.d  = ph3_rptr $ ph3_wptr;
+
+ph3_empty.ck = !h_phi2;
+ph3_empty.ar = !h_rst_b # control6 # (!p_wr_b & paccess_r3);
+ph3_empty.ce = hwrite_r3 & !ph3_empty;
+ph3_empty.d  = ph3_rptr $ ph3_wptr;
+
+node [ph3_rega7..0];
+[ph3_rega7..0].ck = p_wr_b;
+[ph3_rega7..0].ce = paccess_r3 & !ph3_wptr;
+[ph3_rega7..0].d  = [p_data7..0];
+
+node [ph3_regb7..0];
+[ph3_regb7..0].ck = p_wr_b;
+[ph3_regb7..0].ce = paccess_r3 & ph3_wptr;
+[ph3_regb7..0].d  = [p_data7..0];
+
+// TODO: Empty value
+[ph3_data7..0] = [ph3_rega7..0] & !ph3_rptr #
+                 [ph3_regb7..0] &  ph3_rptr;
+
+ph3_dav = !v_flag & !ph3_empty # v_flag & ph3_full;
+ph3_sav = ph3_empty;
+
+$else
 
 node [ph3_reg7..0];
 [ph3_reg7..0].ck = p_wr_b;
@@ -321,6 +421,8 @@ ph3_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r3);
 ph3_sav = !ph3_state;
 ph3_dav = ph3_state;
 [ph3_data7..0] = [ph3_reg7..0];
+
+$endif
 
 // Interrupt locgic
 

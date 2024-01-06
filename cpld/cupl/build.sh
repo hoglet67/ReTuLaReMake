@@ -33,8 +33,7 @@ wine ${FITTERDIR}\\${FITTER} \
      -lib aprim.lib \
      -tech ${DEVICE} \
      -device ${PACKAGE} \
-     -tpd ${SPEED} \
-     -strategy xor_synthesis off
+     -tpd ${SPEED}
 
 #
 # Show result of fitting
