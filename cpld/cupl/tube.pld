@@ -111,6 +111,8 @@ node paccess_r3;
 
 // Intermediate values
 
+p_powered_off = !p_rd_b & !p_wr_b;
+
 hwrite_c   = !h_rdnw & !h_cs_b & !h_addr2 & !h_addr1 & !h_addr0;
 hwrite_r1  = !h_rdnw & !h_cs_b & !h_addr2 & !h_addr1 &  h_addr0;
 hwrite_r2  = !h_rdnw & !h_cs_b & !h_addr2 &  h_addr1 &  h_addr0;
@@ -249,17 +251,16 @@ ph3_dav = ph3_state;
 
 nmi_flag = hp3_dav # ph3_sav;
 
-p_nmi_b = !(m_flag & nmi_flag);
+p_nmi_b = !(m_flag & nmi_flag # p_powered_off);
 
-p_irq_b = !((j_flag & hp4_dav) # (i_flag & hp1_dav));
+p_irq_b = !((j_flag & hp4_dav) # (i_flag & hp1_dav) # p_powered_off);
 
 h_irq_b = 'b'0;
 h_irq_b.oe = q_flag & ph4_dav;
 
 // Reset logic
 
-p_rst_b = h_rst_b & !p_flag;
-
+p_rst_b = !(!h_rst_b # p_flag # !p_powered_off);
 
 // p_data output multiplexor
 
@@ -274,7 +275,7 @@ unused5..0 = 'b'111111;
                [hp4_dav, ph4_sav, unused5..0]   & ( p_addr2 &  p_addr1 & !p_addr0) #
                [hp4_data7..0]                   & ( p_addr2 &  p_addr1 &  p_addr0);
 
-[p_data0..7].oe = !p_rd_b & !p_cs_b;
+[p_data0..7].oe = !p_rd_b & p_wr_b & !p_cs_b ;
 
 // h_data output multiplexor
 
@@ -287,4 +288,4 @@ unused5..0 = 'b'111111;
                [ph4_dav, hp4_sav, unused5..0]   & ( h_addr2 &  h_addr1 & !h_addr0) #
                [ph4_data7..0]                   & ( h_addr2 &  h_addr1 &  h_addr0);
 
-[h_data0..7].oe = h_phi2 & h_rdnw & !h_cs_b;
+[h_data0..7].oe = h_phi2 & h_rdnw & !h_cs_b & !p_powered_off;
