@@ -145,18 +145,12 @@ paccess_r3 = !p_cs_b &  p_addr2 & !p_addr1 &  p_addr0;
 paccess_r4 = !p_cs_b &  p_addr2 &  p_addr1 &  p_addr0;
 
 // Control Register
-// Note: .ce and .clk share a product term, unless .clk is on a global input
 node [control6..0];
 [control6..0].ck = !h_phi2;
 [control6..1].ar = !h_rst_b;
 [control0].ap    = !h_rst_b;
-control0.t = hwrite_c & !h_data0 & (control0 $ h_data7);
-control1.t = hwrite_c & !h_data1 & (control1 $ h_data7);
-control2.t = hwrite_c & !h_data2 & (control2 $ h_data7);
-control3.t = hwrite_c & !h_data3 & (control3 $ h_data7);
-control4.t = hwrite_c & !h_data4 & (control4 $ h_data7);
-control5.t = hwrite_c & !h_data5 & (control5 $ h_data7);
-control6.t = hwrite_c & !h_data6 & (control6 $ h_data7);
+[control6..0].ce = [h_data6..0] & hwrite_c;
+[control6..0].d  = h_data7;
 
 t_flag = control6; // Tube reset: a '1' holds the PH/HP FIFOs in their reset state
 p_flag = control5; // Parasite reset a '1->0' transision p_rst_b to be asserted for 80us
