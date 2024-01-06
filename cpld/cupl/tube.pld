@@ -27,41 +27,41 @@ $define FIX_PINOUT
 
 $ifdef FIX_PINOUT
 
-pin 25 = h_addr2;
-pin 40 = h_addr1;
-pin 35 = h_addr0;
-pin 30 = h_cs_b;
-pin 23 = h_data7;
-pin 20 = h_data6;
-pin 14 = h_data5;
-pin 10 = h_data4;
-pin  6 = h_data3;
-pin 94 = h_data2;
-pin 92 = h_data1;
-pin 85 = h_data0;
-pin 31 = h_phi2;
-pin 29 = h_rdnw;
-pin 32 = h_rst_b;
-pin 98 = h_irq_b;
-pin 97 = drq;
-pin 47 = dack_b;
-pin 48 = p_addr2;
-pin 42 = p_addr1;
-pin 41 = p_addr0;
-pin 44 = p_cs_b;
-pin 52 = p_data7;
-pin 56 = p_data6;
-pin 61 = p_data5;
-pin 65 = p_data4;
-pin 69 = p_data3;
-pin 75 = p_data2;
-pin 80 = p_data1;
-pin 83 = p_data0;
-pin 45 = p_rd_b;
-pin 46 = p_wr_b;
-pin 96 = p_rst_b;
-pin 99 = p_nmi_b;
-pin 79 = p_irq_b;
+pin  77 = h_addr2;
+pin  76 = h_addr1;
+pin  75 = h_addr0;
+pin  79 = h_cs_b;
+pin  72 = h_data7;
+pin  70 = h_data6;
+pin  64 = h_data5;
+pin  60 = h_data4;
+pin  56 = h_data3;
+pin  44 = h_data2;
+pin  42 = h_data1;
+pin  35 = h_data0;
+pin  87 = h_phi2;
+pin  78 = h_rdnw;
+pin  89 = h_rst_b;
+pin  48 = h_irq_b;
+pin  47 = drq;
+pin  99 = dack_b;
+pin 100 = p_addr2;
+pin   1 = p_addr1;
+pin  96 = p_addr0;
+pin  97 = p_cs_b;
+pin   2 = p_data7;
+pin   6 = p_data6;
+pin  12 = p_data5;
+pin  16 = p_data4;
+pin  19 = p_data3;
+pin  25 = p_data2;
+pin  30 = p_data1;
+pin  33 = p_data0;
+pin  98 = p_rd_b;
+pin  90 = p_wr_b;
+pin  46 = p_rst_b;
+pin  49 = p_nmi_b;
+pin  29 = p_irq_b;
 
 $ELSE
 
