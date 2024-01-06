@@ -110,15 +110,15 @@ $ENDIF
 
 // Force creation of intermediate nodes
 
-node hwrite_r1;
-node hwrite_r2;
-node hwrite_r3;
-node hwrite_r4;
+//node hwrite_r1;
+//node hwrite_r2;
+//node hwrite_r3;
+//node hwrite_r4;
 
-node paccess_r1;
-node paccess_r2;
-node paccess_r3;
-node paccess_r4;
+//node paccess_r1;
+//node paccess_r2;
+//node paccess_r3;
+//node paccess_r4;
 
 // Intermediate values
 
@@ -200,9 +200,13 @@ node [hp4_reg7..0];
 [hp2_reg7..0].ck = !h_phi2;
 [hp4_reg7..0].ck = !h_phi2;
 
-[hp1_reg7..0].d  = [h_data7..0] & hwrite_r1 # [hp1_reg7..0] & !hwrite_r1;
-[hp2_reg7..0].d  = [h_data7..0] & hwrite_r2 # [hp2_reg7..0] & !hwrite_r2;
-[hp4_reg7..0].d  = [h_data7..0] & hwrite_r4 # [hp4_reg7..0] & !hwrite_r4;
+[hp1_reg7..0].ce = hwrite_r1;
+[hp2_reg7..0].ce = hwrite_r2;
+[hp4_reg7..0].ce = hwrite_r4;
+
+[hp1_reg7..0].d  = [h_data7..0];
+[hp2_reg7..0].d  = [h_data7..0];
+[hp4_reg7..0].d  = [h_data7..0];
 
 [hp1_data7..0] = [hp1_reg7..0];
 [hp2_data7..0] = [hp2_reg7..0];
@@ -215,10 +219,11 @@ hp2_sav = !hp1_state & !hp2_state & !hp4_state;
 hp4_sav = !hp1_state & !hp2_state & !hp4_state;
 
 node [hp124_reg7..0];
-node hwrite_r124;
+//node hwrite_r124;
 hwrite_r124  = hwrite_r1 # hwrite_r2 # hwrite_r4;
 [hp124_reg7..0].ck = !h_phi2;
-[hp124_reg7..0].d  = [h_data7..0] & hwrite_r124 # [hp124_reg7..0] & !hwrite_r124;
+[hp124_reg7..0].ce = hwrite_r124;
+[hp124_reg7..0].d  = [h_data7..0];
 
 [hp1_data7..0] = [hp124_reg7..0];
 [hp2_data7..0] = [hp124_reg7..0];
@@ -260,9 +265,13 @@ node [ph4_reg7..0];
 [ph2_reg7..0].ck = p_wr_b;
 [ph4_reg7..0].ck = p_wr_b;
 
-[ph1_reg7..0].d  = [p_data7..0] & paccess_r1 # [ph1_reg7..0] & !paccess_r1;
-[ph2_reg7..0].d  = [p_data7..0] & paccess_r2 # [ph2_reg7..0] & !paccess_r2;
-[ph4_reg7..0].d  = [p_data7..0] & paccess_r4 # [ph4_reg7..0] & !paccess_r4;
+[ph1_reg7..0].ce = paccess_r1;
+[ph2_reg7..0].ce = paccess_r2;
+[ph4_reg7..0].ce = paccess_r4;
+
+[ph1_reg7..0].d  = [p_data7..0];
+[ph2_reg7..0].d  = [p_data7..0];
+[ph4_reg7..0].d  = [p_data7..0];
 
 [ph1_data7..0] = [ph1_reg7..0];
 [ph2_data7..0] = [ph2_reg7..0];
@@ -275,10 +284,11 @@ ph2_sav = !ph1_state & !ph2_state & !ph4_state;
 ph4_sav = !ph1_state & !ph2_state & !ph4_state;
 
 node [ph124_reg7..0];
-node paccess_r124;
+//node paccess_r124;
 paccess_r124 = paccess_r1 # paccess_r2 # paccess_r4;
 [ph124_reg7..0].ck = p_wr_b;
-[ph124_reg7..0].d  = [p_data7..0] & paccess_r124 # [ph124_reg7..0] & !paccess_r124;
+[ph124_reg7..0].ce = paccess_r124;
+[ph124_reg7..0].d  = [p_data7..0];
 
 [ph1_data7..0] = [ph124_reg7..0];
 [ph2_data7..0] = [ph124_reg7..0];
@@ -286,12 +296,12 @@ paccess_r124 = paccess_r1 # paccess_r2 # paccess_r4;
 
 $endif
 
-
 // HP3 FIFO
 
 node [hp3_reg7..0];
 [hp3_reg7..0].ck = !h_phi2;
-[hp3_reg7..0].d =  [h_data7..0] & hwrite_r3 # [hp3_reg7..0] & !hwrite_r3;
+[hp3_reg7..0].ce = hwrite_r3;
+[hp3_reg7..0].d  = [h_data7..0];
 
 node hp3_state;
 hp3_state.ck = !h_phi2;
@@ -306,7 +316,8 @@ hp3_sav = !hp3_state;
 
 node [ph3_reg7..0];
 [ph3_reg7..0].ck = p_wr_b;
-[ph3_reg7..0].d =  [p_data7..0] & paccess_r3 # [ph3_reg7..0] & !paccess_r3;
+[ph3_reg7..0].ce = paccess_r3;
+[ph3_reg7..0].d  = [p_data7..0];
 
 node ph3_state;
 ph3_state.ck = p_wr_b;
