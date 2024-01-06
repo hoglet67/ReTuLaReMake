@@ -273,7 +273,7 @@ unused5..0 = 'b'111111;
                [hp4_dav, ph4_sav, unused5..0]   & ( p_addr2 &  p_addr1 & !p_addr0) #
                [hp4_data7..0]                   & ( p_addr2 &  p_addr1 &  p_addr0);
 
-[p_data0..7].oe = !p_rd_b & h_rdnw & !p_cs_b;
+[p_data0..7].oe = !p_rd_b & !p_cs_b;
 
 // h_data output multiplexor
 
