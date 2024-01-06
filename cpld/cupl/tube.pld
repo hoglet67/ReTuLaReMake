@@ -24,6 +24,10 @@ Device   f1508isptqfp100 ;
 property atmel {preassign      keep     };
 property atmel {global_oe      h_data0,p_data0 };
 
+$define HP124_EXCLUSIVE
+
+$define PH124_EXCLUSIVE
+
 $define FIX_PINOUT
 
 $ifdef FIX_PINOUT
@@ -106,8 +110,15 @@ $ENDIF
 
 // Force creation of intermediate nodes
 
+node hwrite_r1;
+node hwrite_r2;
 node hwrite_r3;
+node hwrite_r4;
+
+node paccess_r1;
+node paccess_r2;
 node paccess_r3;
+node paccess_r4;
 
 // Intermediate values
 
@@ -157,15 +168,10 @@ q_flag = control0; // HIRQ from PH4 non-empty
 
 // HP1/2/4 FIFOs
 
-node [hp124_reg7..0];
-node hwrite_r124;
-hwrite_r124  = hwrite_r1 # hwrite_r2 # hwrite_r4;
-[hp124_reg7..0].ck = !h_phi2;
-[hp124_reg7..0].d  = [h_data7..0] & hwrite_r124 # [hp124_reg7..0] & !hwrite_r124;
-
 node hp1_state;
 node hp2_state;
 node hp4_state;
+
 hp1_state.ck = !h_phi2;
 hp1_state.t  = !hp1_state & hwrite_r1;
 hp1_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r1);
@@ -179,24 +185,53 @@ hp4_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r4);
 hp1_dav = hp1_state;
 hp2_dav = hp2_state;
 hp4_dav = hp4_state;
+
+$ifdef HP124_EXCLUSIVE
+
+hp1_sav = !hp1_state;
+hp2_sav = !hp2_state;
+hp4_sav = !hp4_state;
+
+node [hp1_reg7..0];
+node [hp2_reg7..0];
+node [hp4_reg7..0];
+
+[hp1_reg7..0].ck = !h_phi2;
+[hp2_reg7..0].ck = !h_phi2;
+[hp4_reg7..0].ck = !h_phi2;
+
+[hp1_reg7..0].d  = [h_data7..0] & hwrite_r1 # [hp1_reg7..0] & !hwrite_r1;
+[hp2_reg7..0].d  = [h_data7..0] & hwrite_r2 # [hp2_reg7..0] & !hwrite_r2;
+[hp4_reg7..0].d  = [h_data7..0] & hwrite_r4 # [hp4_reg7..0] & !hwrite_r4;
+
+[hp1_data7..0] = [hp1_reg7..0];
+[hp2_data7..0] = [hp2_reg7..0];
+[hp4_data7..0] = [hp4_reg7..0];
+
+$else
+
 hp1_sav = !hp1_state & !hp2_state & !hp4_state;
 hp2_sav = !hp1_state & !hp2_state & !hp4_state;
 hp4_sav = !hp1_state & !hp2_state & !hp4_state;
+
+node [hp124_reg7..0];
+node hwrite_r124;
+hwrite_r124  = hwrite_r1 # hwrite_r2 # hwrite_r4;
+[hp124_reg7..0].ck = !h_phi2;
+[hp124_reg7..0].d  = [h_data7..0] & hwrite_r124 # [hp124_reg7..0] & !hwrite_r124;
+
 [hp1_data7..0] = [hp124_reg7..0];
 [hp2_data7..0] = [hp124_reg7..0];
 [hp4_data7..0] = [hp124_reg7..0];
 
-// PH1/2/4 FIFOS
+$endif
 
-node [ph124_reg7..0];
-node paccess_r124;
-paccess_r124 = paccess_r1 # paccess_r2 # paccess_r4;
-[ph124_reg7..0].ck = p_wr_b;
-[ph124_reg7..0].d  = [p_data7..0] & paccess_r124 # [ph124_reg7..0] & !paccess_r124;
+// PH1/2/4 FIFOS
 
 node ph1_state;
 node ph2_state;
 node ph4_state;
+
 ph1_state.ck = p_wr_b;
 ph1_state.t  = !ph1_state & paccess_r1;
 ph1_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r1);
@@ -210,12 +245,47 @@ ph4_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r4);
 ph1_dav = ph1_state;
 ph2_dav = ph2_state;
 ph4_dav = ph4_state;
+
+$ifdef PH124_EXCLUSIVE
+
+ph1_sav = !ph1_state;
+ph2_sav = !ph2_state;
+ph4_sav = !ph4_state;
+
+node [ph1_reg7..0];
+node [ph2_reg7..0];
+node [ph4_reg7..0];
+
+[ph1_reg7..0].ck = p_wr_b;
+[ph2_reg7..0].ck = p_wr_b;
+[ph4_reg7..0].ck = p_wr_b;
+
+[ph1_reg7..0].d  = [p_data7..0] & paccess_r1 # [ph1_reg7..0] & !paccess_r1;
+[ph2_reg7..0].d  = [p_data7..0] & paccess_r2 # [ph2_reg7..0] & !paccess_r2;
+[ph4_reg7..0].d  = [p_data7..0] & paccess_r4 # [ph4_reg7..0] & !paccess_r4;
+
+[ph1_data7..0] = [ph1_reg7..0];
+[ph2_data7..0] = [ph2_reg7..0];
+[ph4_data7..0] = [ph4_reg7..0];
+
+$else
+
 ph1_sav = !ph1_state & !ph2_state & !ph4_state;
 ph2_sav = !ph1_state & !ph2_state & !ph4_state;
 ph4_sav = !ph1_state & !ph2_state & !ph4_state;
+
+node [ph124_reg7..0];
+node paccess_r124;
+paccess_r124 = paccess_r1 # paccess_r2 # paccess_r4;
+[ph124_reg7..0].ck = p_wr_b;
+[ph124_reg7..0].d  = [p_data7..0] & paccess_r124 # [ph124_reg7..0] & !paccess_r124;
+
 [ph1_data7..0] = [ph124_reg7..0];
 [ph2_data7..0] = [ph124_reg7..0];
 [ph4_data7..0] = [ph124_reg7..0];
+
+$endif
+
 
 // HP3 FIFO
 
