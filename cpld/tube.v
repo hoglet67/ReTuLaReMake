@@ -206,9 +206,12 @@ module tube
 
    // h_data multiplexor
    always @(*)
+`ifndef XC9572XL
      if (p_powered_off)
        h_data_out = 8'hFE;
-     else case (h_addr)
+     else
+`endif
+     case (h_addr)
        3'b000: h_data_out = {ph1_dav, hp1_sav, control[5:0]};
        3'b001: h_data_out = ph1_data;
        3'b010: h_data_out = {ph2_dav, hp2_sav, 6'b111111};
@@ -220,7 +223,11 @@ module tube
      endcase
 
    // h_data tristate buffer
+`ifdef XC9572XL
+   assign h_data = (h_phi2 && !h_cs_b && h_rdnw && !p_powered_off) ? h_data_out : 8'bZZZZZZZZ;
+`else
    assign h_data = (h_phi2 && !h_cs_b && h_rdnw) ? h_data_out : 8'bZZZZZZZZ;
+`endif
 
    // p_data multiplexor
    always @(*)
