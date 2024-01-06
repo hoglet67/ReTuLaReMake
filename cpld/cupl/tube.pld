@@ -22,6 +22,7 @@ Device   f1508isptqfp100 ;
 //property atmel {xor_synthesis  off      };
 
 property atmel {preassign      keep     };
+property atmel {global_oe      h_data0,p_data0 };
 
 $define FIX_PINOUT
 
