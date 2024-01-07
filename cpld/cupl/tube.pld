@@ -316,12 +316,12 @@ pinnode = hp3_empty;
 hp3_wptr.ck = !h_phi2;
 hp3_wptr.ar = reset;
 hp3_wptr.ce = hwrite_r3 & !hp3_full;
-hp3_wptr.d  = !hp3_wptr;
+hp3_wptr.t  = 'b'1;
 
 hp3_rptr.ck = p_rd_b;
 hp3_rptr.ar = reset;
 hp3_rptr.ce = paccess_r3 & !hp3_empty;
-hp3_rptr.d  = !hp3_rptr;
+hp3_rptr.t  = 'b'1;
 
 hp3_full.ck = !h_phi2;
 hp3_full.ar = reset # (!p_rd_b & paccess_r3);
@@ -381,12 +381,12 @@ pinnode = ph3_empty;
 ph3_wptr.ck = p_wr_b;
 ph3_wptr.ap = reset;
 ph3_wptr.ce = paccess_r3 & !ph3_full;
-ph3_wptr.d  = !ph3_wptr;
+ph3_wptr.t  = 'b'1;
 
 ph3_rptr.ck = !h_phi2;
 ph3_rptr.ar = reset;
 ph3_rptr.ce = hwrite_r3 & !ph3_empty;
-ph3_rptr.d  = !ph3_rptr;
+ph3_rptr.t  = 'b'1;
 
 ph3_full.ck = p_wr_b;
 ph3_full.ar = reset # (h_phi2 & hread_r3);
