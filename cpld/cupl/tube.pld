@@ -171,6 +171,9 @@ j_flag = control2; // PIEQ from HP4 non-empty
 i_flag = control1; // PIRQ from HP1 non-empty
 q_flag = control0; // HIRQ from PH4 non-empty
 
+
+reset = !h_rst_b # t_flag;
+
 // HP1/2/4 FIFOs
 
 pinnode = hp1_state;
@@ -179,13 +182,13 @@ pinnode = hp4_state;
 
 hp1_state.ck = !h_phi2;
 hp1_state.t  = !hp1_state & hwrite_r1;
-hp1_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r1);
+hp1_state.ar = reset # (!p_rd_b & paccess_r1);
 hp2_state.ck = !h_phi2;
 hp2_state.t  = !hp2_state & hwrite_r2;
-hp2_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r2);
+hp2_state.ar = reset # (!p_rd_b & paccess_r2);
 hp4_state.ck = !h_phi2;
 hp4_state.t  = !hp4_state & hwrite_r4;
-hp4_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r4);
+hp4_state.ar = reset # (!p_rd_b & paccess_r4);
 
 hp1_dav = hp1_state;
 hp2_dav = hp2_state;
@@ -244,13 +247,13 @@ pinnode = ph4_state;
 
 ph1_state.ck = p_wr_b;
 ph1_state.t  = !ph1_state & paccess_r1;
-ph1_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r1);
+ph1_state.ar = reset # (h_phi2 & hread_r1);
 ph2_state.ck = p_wr_b;
 ph2_state.t  = !ph2_state & paccess_r2;
-ph2_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r2);
+ph2_state.ar = reset # (h_phi2 & hread_r2);
 ph4_state.ck = p_wr_b;
 ph4_state.t  = !ph4_state & paccess_r4;
-ph4_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r4);
+ph4_state.ar = reset # (h_phi2 & hread_r4);
 
 ph1_dav = ph1_state;
 ph2_dav = ph2_state;
@@ -311,23 +314,23 @@ pinnode = hp3_full;
 pinnode = hp3_empty;
 
 hp3_wptr.ck = !h_phi2;
-hp3_wptr.ar = !h_rst_b # control6;
+hp3_wptr.ar = reset;
 hp3_wptr.ce = hwrite_r3 & !hp3_full;
 hp3_wptr.d  = !hp3_wptr;
 
 hp3_rptr.ck = p_rd_b;
-hp3_rptr.ar = !h_rst_b # control6;
+hp3_rptr.ar = reset;
 hp3_rptr.ce = paccess_r3 & !hp3_empty;
 hp3_rptr.d  = !hp3_rptr;
 
 hp3_full.ck = !h_phi2;
-hp3_full.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r3);
+hp3_full.ar = reset # (!p_rd_b & paccess_r3);
 hp3_full.ce = hwrite_r3 & !hp3_full;
 hp3_full.d  = hp3_rptr $ hp3_wptr;
 
 hp3_empty.ck = p_rd_b;
 hp3_empty.ar = (h_phi2 & hwrite_r3);
-hp3_empty.ap = !h_rst_b # control6;
+hp3_empty.ap = reset;
 hp3_empty.ce = paccess_r3 & !hp3_empty;
 hp3_empty.d  = hp3_rptr $ hp3_wptr;
 
@@ -358,7 +361,7 @@ pinnode = [hp3_reg7..0];
 pinnode = hp3_state;
 hp3_state.ck = !h_phi2;
 hp3_state.t  = !hp3_state & hwrite_r3;
-hp3_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r3);
+hp3_state.ar = reset # (!p_rd_b & paccess_r3);
 
 hp3_dav = hp3_state;
 hp3_sav = !hp3_state;
@@ -376,22 +379,22 @@ pinnode = ph3_full;
 pinnode = ph3_empty;
 
 ph3_wptr.ck = p_wr_b;
-ph3_wptr.ap = !h_rst_b # control6;
+ph3_wptr.ap = reset;
 ph3_wptr.ce = paccess_r3 & !ph3_full;
 ph3_wptr.d  = !ph3_wptr;
 
 ph3_rptr.ck = !h_phi2;
-ph3_rptr.ar = !h_rst_b # control6;
+ph3_rptr.ar = reset;
 ph3_rptr.ce = hwrite_r3 & !ph3_empty;
 ph3_rptr.d  = !ph3_rptr;
 
 ph3_full.ck = p_wr_b;
-ph3_full.ar = !h_rst_b # control6 # (h_phi2 & hread_r3);
+ph3_full.ar = reset # (h_phi2 & hread_r3);
 ph3_full.ce = paccess_r3 & !ph3_full;
 ph3_full.d  = ph3_rptr $ ph3_wptr;
 
 ph3_empty.ck = !h_phi2;
-ph3_empty.ar = !h_rst_b # control6 # (!p_wr_b & paccess_r3);
+ph3_empty.ar = reset # (!p_wr_b & paccess_r3);
 ph3_empty.ce = hwrite_r3 & !ph3_empty;
 ph3_empty.d  = ph3_rptr $ ph3_wptr;
 
@@ -422,7 +425,7 @@ pinnode = [ph3_reg7..0];
 pinnode = ph3_state;
 ph3_state.ck = p_wr_b;
 ph3_state.t  = !ph3_state & paccess_r3;
-ph3_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r3);
+ph3_state.ar = reset # (h_phi2 & hread_r3);
 
 ph3_sav = !ph3_state;
 ph3_dav = ph3_state;
