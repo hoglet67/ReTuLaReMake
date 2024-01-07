@@ -51,7 +51,7 @@ pin  56 = h_data3;
 pin  44 = h_data2;
 pin  42 = h_data1;
 pin  35 = h_data0;
-pin  87 = h_phi2;
+pin  87 = p_rd_b;
 pin  78 = h_rdnw;
 pin  89 = h_rst_b;
 $ifdef IMPL_HIRQ
@@ -71,7 +71,7 @@ pin  19 = p_data3;
 pin  25 = p_data2;
 pin  30 = p_data1;
 pin  33 = p_data0;
-pin  85 = p_rd_b;
+pin  85 = h_phi2;
 pin  90 = p_wr_b;
 pin  46 = p_rst_b;
 pin  49 = p_nmi_b;
