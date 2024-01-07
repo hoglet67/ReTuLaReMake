@@ -570,7 +570,7 @@ endmodule
 //PIN: h_data_2 : 44
 //PIN: h_data_1 : 42
 //PIN: h_data_0 : 35
-//PIN: h_phi2   : 87
+//PIN: h_phi2   : 85
 //PIN: h_rdnw   : 78
 //PIN: h_rst_b  : 89
 //PIN: h_irq_b  : 48
@@ -588,7 +588,7 @@ endmodule
 //PIN: p_data_2 : 25
 //PIN: p_data_1 : 30
 //PIN: p_data_0 : 33
-//PIN: p_rd_b   : 98
+//PIN: p_rd_b   : 87
 //PIN: p_wr_b   : 90
 //PIN: p_rst_b  : 46
 //PIN: p_nmi_b  : 49
