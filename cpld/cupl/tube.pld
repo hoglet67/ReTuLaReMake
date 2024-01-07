@@ -121,15 +121,15 @@ $ENDIF
 
 // Force creation of intermediate nodes
 
-//node hwrite_r1;
-//node hwrite_r2;
-//node hwrite_r3;
-//node hwrite_r4;
+//pinnode = hwrite_r1;
+//pinnode = hwrite_r2;
+//pinnode = hwrite_r3;
+//pinnode = hwrite_r4;
 
-//node paccess_r1;
-//node paccess_r2;
-//node paccess_r3;
-//node paccess_r4;
+//pinnode = paccess_r1;
+//pinnode = paccess_r2;
+//pinnode = paccess_r3;
+//pinnode = paccess_r4;
 
 // Intermediate values
 
@@ -156,7 +156,7 @@ paccess_r3 = !p_cs_b &  p_addr2 & !p_addr1 &  p_addr0;
 paccess_r4 = !p_cs_b &  p_addr2 &  p_addr1 &  p_addr0;
 
 // Control Register
-node [control6..0];
+pinnode = [control6..0];
 [control6..0].ck = !h_phi2;
 [control6..1].ar = !h_rst_b;
 [control0].ap    = !h_rst_b;
@@ -173,9 +173,9 @@ q_flag = control0; // HIRQ from PH4 non-empty
 
 // HP1/2/4 FIFOs
 
-node hp1_state;
-node hp2_state;
-node hp4_state;
+pinnode = hp1_state;
+pinnode = hp2_state;
+pinnode = hp4_state;
 
 hp1_state.ck = !h_phi2;
 hp1_state.t  = !hp1_state & hwrite_r1;
@@ -197,9 +197,9 @@ hp1_sav = !hp1_state;
 hp2_sav = !hp2_state;
 hp4_sav = !hp4_state;
 
-node [hp1_reg7..0];
-node [hp2_reg7..0];
-node [hp4_reg7..0];
+pinnode = [hp1_reg7..0];
+pinnode = [hp2_reg7..0];
+pinnode = [hp4_reg7..0];
 
 [hp1_reg7..0].ck = !h_phi2;
 [hp2_reg7..0].ck = !h_phi2;
@@ -223,8 +223,8 @@ hp1_sav = !hp1_state & !hp2_state & !hp4_state;
 hp2_sav = !hp1_state & !hp2_state & !hp4_state;
 hp4_sav = !hp1_state & !hp2_state & !hp4_state;
 
-node [hp124_reg7..0];
-//node hwrite_r124;
+pinnode = [hp124_reg7..0];
+//pinnode = hwrite_r124;
 hwrite_r124  = hwrite_r1 # hwrite_r2 # hwrite_r4;
 [hp124_reg7..0].ck = !h_phi2;
 [hp124_reg7..0].ce = hwrite_r124;
@@ -238,9 +238,9 @@ $endif
 
 // PH1/2/4 FIFOS
 
-node ph1_state;
-node ph2_state;
-node ph4_state;
+pinnode = ph1_state;
+pinnode = ph2_state;
+pinnode = ph4_state;
 
 ph1_state.ck = p_wr_b;
 ph1_state.t  = !ph1_state & paccess_r1;
@@ -262,9 +262,9 @@ ph1_sav = !ph1_state;
 ph2_sav = !ph2_state;
 ph4_sav = !ph4_state;
 
-node [ph1_reg7..0];
-node [ph2_reg7..0];
-node [ph4_reg7..0];
+pinnode = [ph1_reg7..0];
+pinnode = [ph2_reg7..0];
+pinnode = [ph4_reg7..0];
 
 [ph1_reg7..0].ck = p_wr_b;
 [ph2_reg7..0].ck = p_wr_b;
@@ -288,8 +288,8 @@ ph1_sav = !ph1_state & !ph2_state & !ph4_state;
 ph2_sav = !ph1_state & !ph2_state & !ph4_state;
 ph4_sav = !ph1_state & !ph2_state & !ph4_state;
 
-node [ph124_reg7..0];
-//node paccess_r124;
+pinnode = [ph124_reg7..0];
+//pinnode = paccess_r124;
 paccess_r124 = paccess_r1 # paccess_r2 # paccess_r4;
 [ph124_reg7..0].ck = p_wr_b;
 [ph124_reg7..0].ce = paccess_r124;
@@ -305,10 +305,10 @@ $endif
 
 $ifdef HP3_TWOBYTE
 
-node hp3_wptr;
-node hp3_rptr;
-node hp3_full;
-node hp3_empty;
+pinnode = hp3_wptr;
+pinnode = hp3_rptr;
+pinnode = hp3_full;
+pinnode = hp3_empty;
 
 hp3_wptr.ck = !h_phi2;
 hp3_wptr.ar = !h_rst_b # control6;
@@ -331,12 +331,12 @@ hp3_empty.ap = !h_rst_b # control6;
 hp3_empty.ce = paccess_r3 & !hp3_empty;
 hp3_empty.d  = hp3_rptr $ hp3_wptr;
 
-node [hp3_rega7..0];
+pinnode = [hp3_rega7..0];
 [hp3_rega7..0].ck = !h_phi2;
 [hp3_rega7..0].ce = hwrite_r3 & !hp3_wptr;
 [hp3_rega7..0].d  = [h_data7..0];
 
-node [hp3_regb7..0];
+pinnode = [hp3_regb7..0];
 [hp3_regb7..0].ck = !h_phi2;
 [hp3_regb7..0].ce = hwrite_r3 & hp3_wptr;
 [hp3_regb7..0].d  = [h_data7..0];
@@ -350,12 +350,12 @@ hp3_sav = hp3_empty;
 
 $else
 
-node [hp3_reg7..0];
+pinnode = [hp3_reg7..0];
 [hp3_reg7..0].ck = !h_phi2;
 [hp3_reg7..0].ce = hwrite_r3;
 [hp3_reg7..0].d  = [h_data7..0];
 
-node hp3_state;
+pinnode = hp3_state;
 hp3_state.ck = !h_phi2;
 hp3_state.t  = !hp3_state & hwrite_r3;
 hp3_state.ar = !h_rst_b # control6 # (!p_rd_b & paccess_r3);
@@ -370,10 +370,10 @@ $endif
 
 $ifdef PH3_TWOBYTE
 
-node ph3_wptr;
-node ph3_rptr;
-node ph3_full;
-node ph3_empty;
+pinnode = ph3_wptr;
+pinnode = ph3_rptr;
+pinnode = ph3_full;
+pinnode = ph3_empty;
 
 ph3_wptr.ck = p_wr_b;
 ph3_wptr.ap = !h_rst_b # control6;
@@ -395,12 +395,12 @@ ph3_empty.ar = !h_rst_b # control6 # (!p_wr_b & paccess_r3);
 ph3_empty.ce = hwrite_r3 & !ph3_empty;
 ph3_empty.d  = ph3_rptr $ ph3_wptr;
 
-node [ph3_rega7..0];
+pinnode = [ph3_rega7..0];
 [ph3_rega7..0].ck = p_wr_b;
 [ph3_rega7..0].ce = paccess_r3 & !ph3_wptr;
 [ph3_rega7..0].d  = [p_data7..0];
 
-node [ph3_regb7..0];
+pinnode = [ph3_regb7..0];
 [ph3_regb7..0].ck = p_wr_b;
 [ph3_regb7..0].ce = paccess_r3 & ph3_wptr;
 [ph3_regb7..0].d  = [p_data7..0];
@@ -414,12 +414,12 @@ ph3_sav = ph3_empty;
 
 $else
 
-node [ph3_reg7..0];
+pinnode = [ph3_reg7..0];
 [ph3_reg7..0].ck = p_wr_b;
 [ph3_reg7..0].ce = paccess_r3;
 [ph3_reg7..0].d  = [p_data7..0];
 
-node ph3_state;
+pinnode = ph3_state;
 ph3_state.ck = p_wr_b;
 ph3_state.t  = !ph3_state & paccess_r3;
 ph3_state.ar = !h_rst_b # control6 # (h_phi2 & hread_r3);
