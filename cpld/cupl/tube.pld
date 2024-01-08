@@ -21,9 +21,14 @@ Device   f1508isptqfp100 ;
 //property atmel {security       off      };
 //property atmel {xor_synthesis  off      };
 
-property atmel {preassign      keep     };
-property atmel {global_oe      h_data0,p_data0 };
-property atmel {xor_synthesis  off      };
+property atmel {preassign        keep            };
+property atmel {global_oe        h_data0,p_data0 };
+property atmel {xor_synthesis    off             };
+property atmel {jtag             on              };
+property atmel {tdi_pullup       on              };
+property atmel {tms_pullup       on              };
+property atmel {output_fast      off             };
+property atmel {verilog_sim      verilog         };
 
 // $define IMPL_HIRQ
 
