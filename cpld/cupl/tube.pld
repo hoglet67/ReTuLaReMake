@@ -448,7 +448,7 @@ $endif
 
 // Reset logic
 
-p_rst_b = !(!h_rst_b # p_flag # !p_powered_off);
+p_rst_b = !(!h_rst_b # p_flag # p_powered_off);
 
 // p_data output multiplexor
 
