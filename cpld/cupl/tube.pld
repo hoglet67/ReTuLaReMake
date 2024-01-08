@@ -178,6 +178,7 @@ i_flag = control1; // PIRQ from HP1 non-empty
 q_flag = control0; // HIRQ from PH4 non-empty
 
 
+pinnode = reset;
 reset = !h_rst_b # t_flag;
 
 // HP1/2/4 FIFOs
