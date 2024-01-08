@@ -17,7 +17,8 @@ export FITTERDIR=$(winepath -w ${ROOT}/vendor/prochip)
 
 rm -f ${NAME}.pla
 
-wine ${WINCUPLDIR}\\cupl.exe -m2 -bxfu ${WINCUPLDIR}\\cupl.dl ${NAME}.pld
+# m0 allows the fitter to do all the minimization
+wine ${WINCUPLDIR}\\cupl.exe -m0 -bxfu ${WINCUPLDIR}\\cupl.dl ${NAME}.pld
 
 #
 # Run Fitter
@@ -33,7 +34,7 @@ wine ${FITTERDIR}\\${FITTER} \
      -lib aprim.lib \
      -tech ${DEVICE} \
      -device ${PACKAGE} \
-     -tpd ${SPEED}
+     -tpd ${SPEED} $*
 
 #
 # Show result of fitting
