@@ -31,7 +31,7 @@ property atmel {output_fast      off             };
 property atmel {verilog_sim      verilog         };
 property atmel {open_collector   h_irq_b         };
 
-// $define IMPL_HIRQ
+$define IMPL_HIRQ
 
 $define HP124_EXCLUSIVE
 
