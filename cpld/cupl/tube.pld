@@ -29,6 +29,7 @@ property atmel {tdi_pullup       on              };
 property atmel {tms_pullup       on              };
 property atmel {output_fast      off             };
 property atmel {verilog_sim      verilog         };
+property atmel {open_collector   h_irq_b         };
 
 // $define IMPL_HIRQ
 
@@ -452,8 +453,7 @@ p_nmi_b = !(m_flag & nmi_flag # p_powered_off);
 p_irq_b = !((j_flag & hp4_dav) # (i_flag & hp1_dav) # p_powered_off);
 
 $ifdef IMPL_HIRQ
-h_irq_b = 'b'0;
-h_irq_b.oe = q_flag & ph4_dav;
+h_irq_b = !(q_flag & ph4_dav);
 $endif
 
 // Reset logic
