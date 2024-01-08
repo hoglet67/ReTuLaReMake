@@ -22,7 +22,7 @@ Device   f1508isptqfp100 ;
 //property atmel {xor_synthesis  off      };
 
 property atmel {preassign        keep            };
-property atmel {global_oe        h_data0,p_data0 };
+property atmel {global_oe        h_data0,p_data0,p_rst_b,p_irq_b,p_nmi_b };
 property atmel {xor_synthesis    off             };
 property atmel {jtag             on              };
 property atmel {tdi_pullup       on              };
@@ -139,7 +139,7 @@ $ENDIF
 
 // Intermediate values
 
-p_powered_off = !p_rd_b & !p_wr_b;
+p_powered_on = p_rd_b # p_wr_b;
 
 hwrite_c   = !h_rdnw & !h_cs_b & !h_addr2 & !h_addr1 & !h_addr0;
 hwrite_r1  = !h_rdnw & !h_cs_b & !h_addr2 & !h_addr1 &  h_addr0;
@@ -448,17 +448,20 @@ pinnode = nmi_flag;
 
 nmi_flag = hp3_dav # ph3_sav;
 
-p_nmi_b = !(m_flag & nmi_flag # p_powered_off);
+p_nmi_b = !(m_flag & nmi_flag);
+p_nmi_b.oe = p_powered_on;
 
-p_irq_b = !((j_flag & hp4_dav) # (i_flag & hp1_dav) # p_powered_off);
+p_irq_b = !((j_flag & hp4_dav) # (i_flag & hp1_dav));
+p_irq_b.oe = p_powered_on;
 
 $ifdef IMPL_HIRQ
-h_irq_b = !(q_flag & ph4_dav);
+h_irq_b = !(q_flag & ph4_dav & p_powered_on);
 $endif
 
 // Reset logic
 
-p_rst_b = !(!h_rst_b # p_flag # p_powered_off);
+p_rst_b = !(!h_rst_b # p_flag);
+p_rst_b.oe = p_powered_on;
 
 // p_data output multiplexor
 
@@ -486,4 +489,4 @@ unused5..0 = 'b'111111;
                [ph4_dav, hp4_sav, unused5..0]   & ( h_addr2 &  h_addr1 & !h_addr0) #
                [ph4_data7..0]                   & ( h_addr2 &  h_addr1 &  h_addr0);
 
-[h_data0..7].oe = h_phi2 & h_rdnw & !h_cs_b & !p_powered_off;
+[h_data0..7].oe = h_phi2 & h_rdnw & !h_cs_b & p_powered_on;
