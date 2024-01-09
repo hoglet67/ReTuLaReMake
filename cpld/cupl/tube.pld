@@ -28,7 +28,7 @@ property atmel {jtag             on              };
 property atmel {tdi_pullup       on              };
 property atmel {tms_pullup       on              };
 property atmel {output_fast      off             };
-property atmel {verilog_sim      verilog         };
+property atmel {verilog_sim      sdl             };
 property atmel {open_collector   h_irq_b         };
 
 $define IMPL_HIRQ
@@ -392,7 +392,7 @@ ph3_wptr.t  = 'b'1;
 
 ph3_rptr.ck = !h_phi2;
 ph3_rptr.ar = reset;
-ph3_rptr.ce = hwrite_r3 & !ph3_empty;
+ph3_rptr.ce = hread_r3 & !ph3_empty;
 ph3_rptr.t  = 'b'1;
 
 ph3_full.ck = p_wr_b;
@@ -402,7 +402,7 @@ ph3_full.d  = ph3_rptr $ ph3_wptr;
 
 ph3_empty.ck = !h_phi2;
 ph3_empty.ar = reset # (!p_wr_b & paccess_r3);
-ph3_empty.ce = hwrite_r3 & !ph3_empty;
+ph3_empty.ce = hread_r3 & !ph3_empty;
 ph3_empty.d  = ph3_rptr $ ph3_wptr;
 
 pinnode = [ph3_rega7..0];
@@ -468,11 +468,11 @@ p_rst_b.oe = p_powered_on;
 
 unused5..0 = 'b'111111;
 
-[p_data7..0] = [nmi_flag, ph1_sav, control5..0] & (!p_addr2 & !p_addr1 & !p_addr0) #
+[p_data7..0] = [hp1_dav, ph1_sav, control5..0]  & (!p_addr2 & !p_addr1 & !p_addr0) #
                [hp1_data7..0]                   & (!p_addr2 & !p_addr1 &  p_addr0) #
                [hp2_dav, ph2_sav, unused5..0]   & (!p_addr2 &  p_addr1 & !p_addr0) #
                [hp2_data7..0]                   & (!p_addr2 &  p_addr1 &  p_addr0) #
-               [hp3_dav, ph3_sav, unused5..0]   & ( p_addr2 & !p_addr1 & !p_addr0) #
+               [nmi_flag, ph3_sav, unused5..0]  & ( p_addr2 & !p_addr1 & !p_addr0) #
                [hp3_data7..0]                   & ( p_addr2 & !p_addr1 &  p_addr0) #
                [hp4_dav, ph4_sav, unused5..0]   & ( p_addr2 &  p_addr1 & !p_addr0) #
                [hp4_data7..0]                   & ( p_addr2 &  p_addr1 &  p_addr0);
