@@ -24,3 +24,6 @@ cpld/cupl/*.pla
 cpld/cupl/*.tt2
 cpld/cupl/*.tt3
 cpld/cupl/*.vo
+cpld/cupl/*.vho
+cpld/cupl/*.sdo
+cpld/cupl/*.svf

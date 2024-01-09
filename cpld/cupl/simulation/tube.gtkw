@@ -1,0 +1,74 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Tue Jan  9 13:40:12 2024
+[*]
+[dumpfile] "/disk1/home/dmb/atom/ReTuLaReMake/cpld/simulation/dump.vcd"
+[dumpfile_mtime] "Tue Jan  9 13:35:32 2024"
+[dumpfile_size] 1379746
+[savefile] "/disk1/home/dmb/atom/ReTuLaReMake/cpld/simulation/tube.gtkw"
+[timestart] 160240000
+[size] 1853 1145
+[pos] -1 -1
+*-21.000000 167770000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tube_ula_testbench.
+[treeopen] tube_ula_testbench.U1.
+[sst_width] 223
+[signals_width] 134
+[sst_expanded] 1
+[sst_vpaned_height] 343
+@28
+tube_ula_testbench.h_addr[2:0]
+tube_ula_testbench.h_cs_b
+@22
+tube_ula_testbench.h_data[7:0]
+tube_ula_testbench.h_datain[7:0]
+@28
+tube_ula_testbench.h_irq_b
+tube_ula_testbench.h_phi2
+tube_ula_testbench.h_phi2early
+tube_ula_testbench.h_rdnw
+tube_ula_testbench.h_rst_b
+tube_ula_testbench.p_addr[2:0]
+tube_ula_testbench.p_cs_b
+@22
+tube_ula_testbench.p_data[7:0]
+tube_ula_testbench.p_datain[7:0]
+@28
+tube_ula_testbench.p_irq_b
+tube_ula_testbench.p_nmi_b
+tube_ula_testbench.p_rd_b
+tube_ula_testbench.p_rd_b_gated
+tube_ula_testbench.p_rst_b
+tube_ula_testbench.p_wr_b
+tube_ula_testbench.p_wr_b_gated
+tube_ula_testbench.U1.control0
+tube_ula_testbench.U1.control1
+tube_ula_testbench.U1.control2
+tube_ula_testbench.U1.control3
+tube_ula_testbench.U1.control4
+tube_ula_testbench.U1.control5
+tube_ula_testbench.U1.control6
+tube_ula_testbench.U1.hp1_state
+tube_ula_testbench.U1.hp2_state
+tube_ula_testbench.U1.hp3_empty
+tube_ula_testbench.U1.hp3_full
+tube_ula_testbench.U1.hp3_rptr
+tube_ula_testbench.U1.hp3_wptr
+tube_ula_testbench.U1.hp4_state
+tube_ula_testbench.U1.nmi_flag
+tube_ula_testbench.U1.ph1_state
+tube_ula_testbench.U1.ph2_state
+tube_ula_testbench.U1.ph3_empty
+tube_ula_testbench.U1.ph3_full
+@29
+tube_ula_testbench.U1.ph3_rptr
+@28
+tube_ula_testbench.U1.ph3_wptr
+tube_ula_testbench.U1.ph4_state
+tube_ula_testbench.U1.p_addr0
+tube_ula_testbench.U1.p_addr1
+tube_ula_testbench.U1.p_addr2
+tube_ula_testbench.U1.p_cs_b
+tube_ula_testbench.U1.p_rd_b
+[pattern_trace] 1
+[pattern_trace] 0
