@@ -1,9 +1,14 @@
 `timescale 1 ns / 100 ps
 
+`define t_hclkdiv2 250
+`define t_hpd 25
+
+`define t_pclkdiv2 166
+`define t_ppd 25
+
 module tube_ula_testbench();
 
-   wire       h_phi2;
-   reg        h_phi2early;
+   reg        h_phi2;
    reg        h_rst_b;
    reg        h_cs_b;
    reg        h_rdnw;
@@ -12,12 +17,11 @@ module tube_ula_testbench();
    wire [7:0] h_data;
    wire       h_irq_b;
 
+   reg        p_phi2;
    reg [2:0]  p_addr;
    reg        p_cs_b;
    reg        p_rd_b;
-   wire       p_rd_b_gated;
    reg        p_wr_b;
-   wire       p_wr_b_gated;
    reg [7:0]  p_datain;
    wire [7:0] p_data;
    wire       p_irq_b;
@@ -28,12 +32,14 @@ module tube_ula_testbench();
       input [2:0] addr;
       input [7:0] data;
       begin
-         @ (negedge h_phi2);
+         @(negedge h_phi2);
+         # `t_hpd;
          h_addr = addr;
          h_datain = data;
          h_rdnw = 0;
          h_cs_b = 0;
          @ (negedge h_phi2);
+         # `t_hpd;
          h_cs_b = 1;
          h_addr = 3'b000;
          h_datain = 8'bZZZZZZZZ;
@@ -47,13 +53,14 @@ module tube_ula_testbench();
       input [7:0] expected_data;
       begin
          @ (negedge h_phi2);
+         # `t_hpd;
          h_addr = addr;
          h_rdnw = 1;
          h_cs_b = 0;
-         @ (posedge h_phi2);
+         @ (negedge h_phi2);
          if ((h_data & expected_mask) != expected_data)
            $display("%0dns: host addr %0d data error detected; expected_mask = %b; expected_data = %b; actual_data = %b", $time, h_addr, expected_mask, expected_data, h_data);
-         @ (negedge h_phi2);
+         # `t_hpd;
          h_cs_b = 1;
          h_addr = 3'b000;
          h_rdnw = 1;
@@ -64,16 +71,19 @@ module tube_ula_testbench();
       input [2:0] addr;
       input [7:0] data;
       begin
-         @ (negedge h_phi2);
+         @ (negedge p_phi2);
+         # `t_ppd;
          p_addr = addr;
          p_datain = data;
-         p_wr_b = 0;
          p_cs_b = 0;
+         @ (posedge p_phi2);
+         p_wr_b = 0;
          @ (negedge h_phi2);
+         # `t_ppd;
+         p_wr_b = 1;
          p_cs_b = 1;
          p_addr = 3'b000;
          p_datain = 8'bZZZZZZZZ;
-         p_wr_b = 1;
       end
    endtask
 
@@ -82,17 +92,19 @@ module tube_ula_testbench();
       input [7:0] expected_mask;
       input [7:0] expected_data;
       begin
-         @ (negedge h_phi2);
+         @ (negedge p_phi2);
+         # `t_ppd;
          p_addr = addr;
-         p_rd_b = 0;
          p_cs_b = 0;
-         @ (posedge h_phi2);
+         @ (posedge p_phi2)
+         p_rd_b = 0;
+         @ (negedge p_phi2);
          if ((p_data & expected_mask) != expected_data)
            $display("%0dns: para addr %0d data error detected; expected_mask = %b; expected_data = %b; actual_data = %b", $time, p_addr, expected_mask, expected_data, p_data);
-         @ (negedge h_phi2);
+         # `t_ppd;
+         p_rd_b = 1;
          p_cs_b = 1;
          p_addr = 3'b000;
-         p_rd_b = 1;
       end
    endtask
 
@@ -115,22 +127,22 @@ module tube_ula_testbench();
          $display("Testing host to para status_reg=%0d, data_reg=%0d, num=%0d", status_reg, data_reg, num);
          // Initial FIFO state should be empty
          // Bit 7 is Data Available, Bit 6 is Space Available
-         host_read(status_reg, 8'b11000000, 8'b01000000);
-         para_read(status_reg, 8'b11000000, 8'b01000000);
+         host_read(status_reg, 8'b01000000, 8'b01000000);
+         para_read(status_reg, 8'b10000000, 8'b00000000);
          for (i = 0; i < num; i = i + 1)
            begin
               host_write(data_reg, 170 + i); // write to host
            end
          // Intermediate FIFO state should be full
-         host_read(status_reg, 8'b11000000, 8'b00000000);
-         para_read(status_reg, 8'b11000000, 8'b11000000);
+         host_read(status_reg, 8'b01000000, 8'b00000000);
+         para_read(status_reg, 8'b10000000, 8'b10000000);
          for (i = 0; i < num; i = i + 1)
            begin
               para_read(data_reg, 8'b11111111, 170 + i);         // read from para
            end
          // Initial FIFO state should be empty
-         host_read(status_reg, 8'b11000000, 8'b01000000);
-         para_read(status_reg, 8'b11000000, 8'b01000000);
+         host_read(status_reg, 8'b01000000, 8'b01000000);
+         para_read(status_reg, 8'b10000000, 8'b00000000);
       end
    endtask
 
@@ -143,22 +155,22 @@ module tube_ula_testbench();
          $display("Testing para to host status_reg=%0d, data_reg=%0d, num=%0d", status_reg, data_reg, num);
          // Initial FIFO state should be empty
          // Bit 7 is Data Available, Bit 6 is Space Available
-         para_read(status_reg, 8'b11000000, 8'b01000000);
-         host_read(status_reg, 8'b11000000, 8'b01000000);
+         para_read(status_reg, 8'b01000000, 8'b01000000);
+         host_read(status_reg, 8'b10000000, 8'b00000000);
          for (i = 0; i < num; i = i + 1)
            begin
               para_write(data_reg, 170 + i); // write to para
            end
          // Intermediate FIFO state should be full
-         para_read(status_reg, 8'b11000000, 8'b00000000);
-         host_read(status_reg, 8'b11000000, 8'b11000000);
+         para_read(status_reg, 8'b01000000, 8'b00000000);
+         host_read(status_reg, 8'b10000000, 8'b10000000);
          for (i = 0; i < num; i = i + 1)
            begin
               host_read(data_reg, 8'b11111111, 170 + i);     // read from host
            end
          // Initial FIFO state should be empty
-         para_read(status_reg, 8'b11000000, 8'b01000000);
-         host_read(status_reg, 8'b11000000, 8'b01000000);
+         para_read(status_reg, 8'b01000000, 8'b01000000);
+         host_read(status_reg, 8'b10000000, 8'b00000000);
       end
    endtask
 
@@ -178,7 +190,7 @@ module tube_ula_testbench();
       .h_data2(h_data[2]),
       .h_data1(h_data[1]),
       .h_data0(h_data[0]),
-      .h_phi2(h_phi2early),
+      .h_phi2(h_phi2),
       .h_rst_b(h_rst_b),
       .h_rdnw(h_rdnw),
       .h_irq_b(h_irq_b),
@@ -194,8 +206,8 @@ module tube_ula_testbench();
       .p_data2(p_data[2]),
       .p_data1(p_data[1]),
       .p_data0(p_data[0]),
-      .p_rd_b(p_rd_b_gated),
-      .p_wr_b(p_wr_b_gated),
+      .p_rd_b(p_rd_b),
+      .p_wr_b(p_wr_b),
       .p_irq_b(p_irq_b),
       .p_nmi_b(p_nmi_b),
       .p_rst_b(p_rst_b )
@@ -208,11 +220,12 @@ module tube_ula_testbench();
 
         $dumpvars;
 
+        h_phi2 = 0;
+        p_phi2 = 0;
 
         h_addr = 3'b000;
         h_cs_b = 1;
         h_datain = 8'bZZZZZZZZ;
-        h_phi2early = 0;
         h_rst_b = 1;
         h_rdnw = 1;
         p_addr = 3'b000;
@@ -266,15 +279,6 @@ module tube_ula_testbench();
         $display("Checking control bits");
         host_read(3'b000, 8'b11111111, 8'b01001000);
 
-        // Read the junk byte out of register 3
-        $display();
-        $display("Reading junk out of PH3");
-        para_read(3'b100, 8'b11000000, 8'b00000000); // N=0 _F=0
-        host_read(3'b101, 0, 0);
-        para_read(3'b100, 8'b11000000, 8'b11000000); // N=1 _F=1
-        delay(10);
-
-
         // Test Host To Para
 
         // Test Register 1
@@ -291,6 +295,15 @@ module tube_ula_testbench();
         delay(10);
 
         // Test Para to Host
+
+        // Read the junk byte out of register 3
+        $display();
+        $display("Reading junk out of PH3");
+        para_read(3'b100, 8'b11000000, 8'b00000000); // N=0 _F=0
+        host_read(3'b101, 0, 0);
+        para_read(3'b100, 8'b11000000, 8'b11000000); // N=1 _F=1
+        delay(10);
+
 
         // Test Register 1
         test_para_to_host_fifo(3'b000, 3'b001, 1);  // Note, VDU FIFO only 1 byte deep
@@ -312,13 +325,13 @@ module tube_ula_testbench();
 
    always
      begin
-        #500 h_phi2early = ~h_phi2early;
+        # `t_hclkdiv2 h_phi2 = ~h_phi2;
      end
 
-   assign #250 h_phi2 = h_phi2early;
-
-   assign p_rd_b_gated = p_rd_b | ~h_phi2early;
-   assign p_wr_b_gated = p_wr_b | ~h_phi2early;
+   always
+     begin
+        # `t_pclkdiv2 p_phi2 = ~p_phi2;
+     end
 
    assign h_data = h_datain;
    assign p_data = p_datain;
