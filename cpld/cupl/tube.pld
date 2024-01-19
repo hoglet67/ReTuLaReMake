@@ -449,6 +449,8 @@ pinnode = nmi_flag;
 
 nmi_flag = hp3_dav # ph3_sav;
 
+drq = nmi_flag;
+
 p_nmi_b = !(m_flag & nmi_flag);
 p_nmi_b.oe = p_powered_on;
 
