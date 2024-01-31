@@ -30,6 +30,7 @@ property atmel {tms_pullup       on              };
 property atmel {output_fast      off             };
 property atmel {verilog_sim      sdl             };
 property atmel {open_collector   h_irq_b         };
+property atmel {pin_keep         on              };
 
 $define IMPL_HIRQ
 
