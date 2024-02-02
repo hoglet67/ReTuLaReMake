@@ -52,3 +52,8 @@ echo
 
 grep "^\$Device"  ${NAME}.fit
 echo
+
+#
+# Generate SVF file
+#
+PYTHONPATH=${PYTHONPATH}:~/atom/prjbureau python3 -m util.fuseconv -d ATF1508AS tube.jed tube.svf
